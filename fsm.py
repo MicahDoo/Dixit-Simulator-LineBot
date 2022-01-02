@@ -1,36 +1,275 @@
+import data
 from transitions.extensions import GraphMachine
 
-from utils import send_text_message
+from heapq import heappop, heappush, heapify
+from game import create_game
+
+from utils import send_text_message, show_hand, send_text_and_image
 
 
-class TocMachine(GraphMachine):
+class GameMachine(GraphMachine):
+
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
 
-    def is_going_to_state1(self, event):
-        text = event.message.text
-        return text.lower() == "go to state1"
+    def is_going_to_start_game():
+        pass
+    
 
-    def is_going_to_state2(self, event):
-        text = event.message.text
-        return text.lower() == "go to state2"
 
-    def on_enter_state1(self, event):
-        print("I'm entering state1")
+class UserMachine(GraphMachine):
+    my_room_number = -1
+    my_player_id = 0
+    my_game = None
+    in_game = False
+
+    wait_flag = False
+
+    def __init__(self, **machine_configs):
+        self.machine = GraphMachine(model=self, **machine_configs)
+
+    def leave_game(self):
+        self.in_game = False
+        self.my_room_number = -1
+        self.my_player_id = 0
+        self.my_game = False
+
+    def is_going_to_room_created(self, event):
+        text = event.message.text
+
+        return text.lower().find("game") != -1
+
+    def on_enter_room_created(self, event):
+        print("I'm entering room_created")
 
         reply_token = event.reply_token
-        send_text_message(reply_token, "Trigger state1")
-        self.go_back()
+        # send_text_message(reply_token, "Your user ID is" + str(event.source.user_id))
+        new_room_number = heappop(data.unused_room_numbers)
+        data.games[new_room_number] = create_game()
+        self.my_room_number = new_room_number
+        self.my_game = data.games[new_room_number]
+        self.my_player_id = self.my_game.add_new_player(event.source.user_id)
+        self.in_game = True
+        send_text_message(reply_token, "Initializing room...", "Room created!\nYour room number is " + str(new_room_number), "Your player ID: " + str(self.my_player_id), "Would you like to set a password? (Y/N)")
 
-    def on_exit_state1(self):
-        print("Leaving state1")
+        # n = 10000000
+        # while(self.flag == 0):
+        #     n -= 1
+        #     if(n == 0):
+        #         print("a")
+        #         n = 10000000
 
-    def on_enter_state2(self, event):
-        print("I'm entering state2")
+    # def on_exit_room_created(self, event):
+    #      print("Leaving room init")
+        #  self.flag = 1
+        #  send_text_message(event.reply_token, "Exiting initializing room...")
+
+    def is_joining_game(self, event):
+        text = event.message.text
+        print("Is this join?", text)
+        words = text.split(" ")
+        if len(words) == 2 and words[0].lower() == "join" and words[1].isnumeric():
+            room_number = int(words[1])
+            if data.games[room_number] != None:
+                print("Game exists")
+                self.my_room_number = room_number
+                self.my_game = data.games[room_number]
+                if not self.my_game.password_protected:
+                    return True
+                else:
+                     return False
+            else:
+                return False
+        else:
+            return False
+
+    def is_joining_password_protected_game(self, event):
+        text = event.message.text
+        words = text.split(" ")
+        if len(words) == 2 and words[0].lower() == "join" and words[1].isnumeric():
+            room_number = int(words[1])
+            if data.games[room_number] != None:
+                self.my_room_number = room_number
+                self.my_game = data.games[room_number]
+                if self.my_game.password_protected:
+                    return True
+                else:
+                     return False
+            else:
+                return False
+        else:
+            return False
+
+    def on_enter_in_room(self, event):
+        reply_token = event.reply_token
+        self.my_player_id = self.my_game.add_new_player(event.source.user_id)
+        self.in_game = True
+        send_text_message(reply_token, "Successfully joined room number " + str(self.my_room_number), "Your player ID: " + str(self.my_player_id), "Waiting for the game to start...")
+
+    def on_enter_enter_password(self, event):
+        reply_token = event.reply_token
+        send_text_message(reply_token, "Please put in the password for room number " + str(self.my_room_number) + ":")
+
+    def is_correct_password(self, event):
+        text = event.message.text
+        if not self.my_game.is_password(text):
+            reply_token = event.reply_token
+            send_text_message(reply_token, "The password is incorrect")
+            return False
+        return True
+
+    def is_not_setting_password(self, event):
+        text = event.message.text
+        
+        if text.lower().find("n") != -1:
+            reply_token = event.reply_token
+            send_text_message(reply_token, "Room successfully created!", "Tell your friends to join by texting the room number " + str(self.my_room_number), "Type \"start game\" to start the game")
+        ## I reply here because the actions vary depending on where you are from
+
+        return text.lower().find("n") != -1
+
+    def on_enter_waiting_for_players(self, event):
+        print("I'm entering waiting_for_players")
+
+    def game_ready_to_start(self, event):
+        text = event.message.text
+        return text.lower().find("start") != -1 and self.my_game.game_is_ready()
+
+    def on_enter_hosting_game(self, event):
+        print("I'm entering game_started")
+        
+        self.my_game.start_game()
+        hand = self.my_game.get_hand(self.my_player_id)
 
         reply_token = event.reply_token
-        send_text_message(reply_token, "Trigger state2")
-        self.go_back()
+        show_hand(reply_token, hand, 'There are ' + str(self.my_game.player_count) + "player right now\nYou are the storyteller this round.\nPick an image to tell a story about.")
 
-    def on_exit_state2(self):
-        print("Leaving state2")
+    def plays_a_card(self, event):
+        text = event.message.text
+        if text.isnumeric() and 0 < int(text) <= 5:
+            send_text_and_image(event.reply_token, "You played card " + text + " to confuse the opponent: ", self.my_game.hands[self.my_player_id][int(text)-1])
+            self.my_game.log_distraction(self.my_player_id, int(text)-1)
+        return text.isnumeric() and 0 < int(text) <= 5
+
+    def guesses_a_card(self,event):
+        text = event.message.text
+        if text.isnumeric() and 0 < int(text) <= self.my_game.player_count:
+            send_text_and_image(event.reply_token, "You guessed that image " + text + " was what the story is about: ", self.my_game.display[int(text)-1])
+            self.my_game.log_guess(self.my_player_id, int(text)-1)
+        return text.isnumeric() and 0 < int(text) <= self.my_game.player_count
+
+    def plays_a_card_as_story(self, event):
+        text = event.message.text
+        if text.isnumeric() and 0 < int(text) <= 5:
+            send_text_and_image(event.reply_token, "You chose image " + text + " to tell a story about: ", self.my_game.hands[self.my_player_id][int(text)-1], "Now, make up a sentence related to this picture and say it out loud.\nAfter all players have selected a card, type \"Next\"")
+            self.my_game.log_story(self.my_player_id, int(text)-1)
+        return text.isnumeric() and 0 < int(text) <= 5
+
+    def on_enter_story_told(self, event):
+        pass
+
+    def everyone_played_a_card(self, event):
+        text = event.message.text
+        if text.lower().find("next") != -1 and self.my_game.display.count(-1) == 0:
+            return True
+        else:
+             return False
+
+    def on_enter_all_cards_played(self, event):
+        self.my_game.collected = True
+        self.my_game.replace_all_cards()
+        show_hand(event.reply_token, self.my_game.display, "These are your story and all the other distractions:", self.my_game.player_count)
+
+    def storyteller_collected_the_cards(self, event):
+        return self.my_game.collected
+
+    def on_enter_cards_displayed(self, event):
+        show_hand(event.reply_token, self.my_game.display, "These are the cards to choose from\nWhich one would you bet the story is about?", self.my_game.player_count)
+
+    def end_of_the_game(self, event):
+        print("max(self.my_game.scores) ==", max(self.my_game.scores))
+        return max(self.my_game.scores) >= 30
+
+    def everyone_made_a_guess(self, event):
+        return self.my_game.guesses.count(-1) == 1
+
+    def storyteller_recorded_the_guesses(self, event):
+        if self.my_game.guesses_recorded:
+            print("storyteller_recorded_the_guesses passed")
+        return self.my_game.guesses_recorded
+
+    def on_enter_storyteller_results_shown(self, event):
+        print("printing results?")
+        self.my_game.guesses_recorded = True
+        tally_text = self.my_game.tally()
+        leaderboard_text = self.my_game.show_ranking()
+        send_text_message(event.reply_token, "The answer is " + str(self.my_game.answer), tally_text, leaderboard_text)
+
+    def on_enter_final_results_shown(self, event):
+        # tally_text = self.my_game.tally()
+        # leaderboard_text = self.my_game.show_ranking()
+        send_text_message(event.reply_token, "Game Over")
+
+    def storyteller_next_round(self, event):
+        return self.my_player_id == (self.my_game.storyteller+1)%self.my_game.player_count
+
+    def on_enter_storyteller_card_dealt(self, event):
+        self.my_game.start_round()
+        hand = self.my_game.get_hand(self.my_player_id)
+
+        reply_token = event.reply_token
+        # send_text_message(reply_token, "Here are your cards:" + str(hand))
+        show_hand(reply_token, hand, 'You are the storyteller this round.\nPick an image to tell a story about.')
+
+    def not_storyteller_next_round(self, event):
+        return self.my_player_id != (self.my_game.storyteller+1)%self.my_game.player_count
+
+    def card_dealt(self, event):
+        show_hand(event.reply_token, self.my_game.hands[self.my_player_id], "Listen to the storyteller and play a card to confuse your opponents.")
+
+    def anything(self, event):
+        return True
+
+    def is_setting_password(self, event):
+        text = event.message.text
+
+        return text.lower().find("n") == -1 and text.lower().find("y") != -1
+
+    def on_enter_create_password(self, event):
+
+        reply_token = event.reply_token
+        send_text_message(reply_token, "Please enter your password:")
+
+    def password_valid(self, event):
+        print("Checking if password is valid")
+        text = event.message.text
+
+        if text != "":
+            print("It is valid!")
+            reply_token = event.reply_token
+            self.my_game.set_password(text)
+            send_text_message(reply_token, "Room successfully created!", "Tell your friends to join by texting the room number " + str(self.my_room_number) + " and the password " + self.my_game.get_password(), "Type \"start game\" to start the game")
+
+        return text != ""
+
+    def game_started(self, event):
+        print("Checking if game started")
+        return self.my_game.is_game_alive()
+
+    def on_enter_in_game(self, event):
+        print("In game")
+        show_hand(event.reply_token, self.my_game.hands[self.my_player_id], "Listen to the storyteller and play a card to confuse your opponents.")
+
+
+    def game_finished(self, event):
+        print("Checking if game ended")
+        text = event.message.text
+        if self.my_player_id == 0 and text.lower().find("quit") != -1:
+            # self.in_game = False
+            data.clear_game(self.my_room_number)
+            print("Game cleared")
+        if not self.in_game:
+            reply_token = event.reply_token
+            send_text_message(reply_token, "Game ended")
+        return not self.in_game
+
