@@ -2,7 +2,7 @@ import os
 import data
 
 from linebot import LineBotApi, WebhookParser
-from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, ImageCarouselTemplate, ImageCarouselColumn, TemplateSendMessage, MessageAction
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, ImageCarouselTemplate, ImageCarouselColumn, TemplateSendMessage, MessageAction, QuickReplyButton, QuickReply, ConfirmTemplate, MessageTemplateAction
 
 channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
 
@@ -22,48 +22,17 @@ def send_text_message(reply_token, text1, text2 = None, text3 = None, text4 = No
 
 def show_hand(reply_token, hand, text, n = 5):
     line_bot_api = LineBotApi(channel_access_token)
-    cards = " "
-    for card in hand:
-        cards = cards + " " + str(card)
+    # cards = " "
+    # for card in hand:
+    #     cards = cards + " " + str(card)
     hand_template = TemplateSendMessage(
         alt_text='Buttons Template',
         template=ImageCarouselTemplate(
             columns=[
-                # ImageCarouselColumn(
-                #     image_url=data.img_urls[hand[0]],
-                #     action=MessageAction(
-                #         text='1',
-                #     )
-                # ),
-                # ImageCarouselColumn(
-                #     image_url=data.img_urls[hand[1]],
-                #     action=MessageAction(
-                #         text='2',
-                #     )
-                # ),
-                # ImageCarouselColumn(
-                #     image_url=data.img_urls[hand[2]],
-                #     action=MessageAction(
-                #         text='3',
-                #     )
-                # ),
-                # ImageCarouselColumn(
-                #     image_url=data.img_urls[hand[3]],
-                #     action=MessageAction(
-                #         text='4',
-                #     )
-                # ),
-                # ImageCarouselColumn(
-                #     image_url=data.img_urls[hand[4]],
-                #     action=MessageAction(
-                #         text='5',
-                #     )
-                # )
             ]
         )
     )
     for i in range(n):
-        print(i)
         hand_template.template.columns.append(
             ImageCarouselColumn(
                 image_url=data.img_urls[hand[i]],
@@ -72,22 +41,57 @@ def show_hand(reply_token, hand, text, n = 5):
                 )
             )
         )
-    line_bot_api.reply_message(reply_token, [TextSendMessage(text=text + cards), hand_template])
+    line_bot_api.reply_message(reply_token, [TextSendMessage(text=text), hand_template])
+
+def show_display(reply_token, display, text, n, text1 = None):
+    line_bot_api = LineBotApi(channel_access_token)
+    cards = " "
+    for card in display:
+        cards = cards + " " + str(card)
+    hand_template = TemplateSendMessage(
+        alt_text='Buttons Template',
+        template=ImageCarouselTemplate(
+            columns=[
+            ]
+        )
+    )
+    for i in range(n):
+        hand_template.template.columns.append(
+            ImageCarouselColumn(
+                image_url=data.img_urls[display[i]],
+                action=MessageAction(
+                    text=str(i+1)
+                )
+            )
+        )
+    if text1 != None:
+        line_bot_api.reply_message(reply_token, [TextSendMessage(text=text), hand_template, TextSendMessage(
+        text=text1, quick_reply=QuickReply(items=[QuickReplyButton(action=MessageAction(label="Continue", text="Next"))]))])
+    else:
+        line_bot_api.reply_message(reply_token, [TextSendMessage(text=text), hand_template])
 
 def send_text_and_image(reply_token, text, image_number, text1=None):
     line_bot_api = LineBotApi(channel_access_token)
     image_url = data.img_urls[image_number]
     if text1 != None:
-        line_bot_api.reply_message(reply_token, [TextSendMessage(text=text), ImageSendMessage(original_content_url = image_url, preview_image_url = image_url), TextSendMessage(text=text1)])
+        line_bot_api.reply_message(reply_token, [TextSendMessage(text=text), ImageSendMessage(original_content_url = image_url, preview_image_url = image_url), TextSendMessage(
+        text=text1, quick_reply=QuickReply(items=[QuickReplyButton(action=MessageAction(label="Continue", text="Next"))]))])
     else:
         line_bot_api.reply_message(reply_token, [TextSendMessage(text=text), ImageSendMessage(original_content_url = image_url, preview_image_url = image_url)])
 
-def show_selection(reply_token):
-    # TODO: Show what cards the players play so you can choose what to select
-    pass
-
-def show_scores(reply_token):
-    pass
+def send_text_and_question(reply_token, text1, text2 = None, text3 = None, text4 = None, text5 = None):
+    line_bot_api = LineBotApi(channel_access_token)
+    if text5 != None:
+        line_bot_api.reply_message(reply_token, [TextSendMessage(text=text1), TextSendMessage(text=text2), TextSendMessage(text=text3), TextSendMessage(text=text4), TemplateSendMessage(alt_text='template', template=ConfirmTemplate(title='ConfirmTemplate', text=text5, actions=[MessageTemplateAction(label='Yes', text='Yes'), MessageTemplateAction(label='No', text='No')]))])
+    elif text4 != None:
+        line_bot_api.reply_message(reply_token, [TextSendMessage(text=text1), TextSendMessage(text=text2), TextSendMessage(text=text3), TemplateSendMessage(alt_text='template', template=ConfirmTemplate(title='ConfirmTemplate', text=text4, actions=[MessageTemplateAction(label='Yes', text='Yes'), MessageTemplateAction(label='No', text='No')]))])
+    elif text3 != None:
+        line_bot_api.reply_message(reply_token, [TextSendMessage(text=text1), TextSendMessage(text=text2), TemplateSendMessage(alt_text='template', template=ConfirmTemplate(title='ConfirmTemplate', text=text3, actions=[MessageTemplateAction(label='Yes', text='Yes'), MessageTemplateAction(label='No', text='No')]))])
+    elif text2 != None:
+        line_bot_api.reply_message(reply_token, [TextSendMessage(text=text1), TemplateSendMessage(alt_text='template', template=ConfirmTemplate(title='ConfirmTemplate', text=text2, actions=[MessageTemplateAction(label='Yes', text='Yes'), MessageTemplateAction(label='No', text='No')]))])
+    else:
+        line_bot_api.reply_message(reply_token, TemplateSendMessage(alt_text='template', template=ConfirmTemplate(title='ConfirmTemplate', text=text5, actions=[MessageTemplateAction(label='Yes', text='Yes'), MessageTemplateAction(label='No', text='No')])))
+    return "OK"
 
 
 # def push_text_message(reply_token, text):

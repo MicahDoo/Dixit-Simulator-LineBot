@@ -19,14 +19,20 @@ class Game():
 
     def start_game(self):
         shuffle(self.deck)
-        self.hands = [[-1]*5]*self.player_count
+        # for card in self.deck:
+        #     print(card)
+        self.hands = [[-1]*5 for _ in range(self.player_count)]
         self.display = [-1]*self.player_count
         self.guesses = [-1]*self.player_count
         self.scores = [0]*self.player_count
-        for hand in self.hands:
-            for i in range(0, len(hand)):
-                hand[i] = self.deck[0]
+        for i in range(0, len(self.hands)):
+            for j in range(0, len(self.hands[0])):
+                print("~", self.deck[0])
+                self.hands[i][j] = self.deck[0]
                 self.deck.pop(0)
+        # print(self.hands)
+        # for card in self.deck:
+        #     print(card)
         self.game_started = True
 
     def shuffle_deck(self):
@@ -39,19 +45,23 @@ class Game():
     def log_distraction(self, player_id, number):
         self.display[player_id] = number
 
-    def log_guesses(self, player_id, number):
+    def log_guess(self, player_id, number):
         self.guesses[player_id] = number
 
     def start_round(self):
         self.display = [-1]*self.player_count
         self.guesses = [-1]*self.player_count
-        self.scores = [0]*self.player_count
         self.story = -1
         self.answer = -1
         self.storyteller = (self.storyteller+1)%self.player_count
         self.collected = False
+        self.guesses_recorded = False
+        self.tally_text = ""
+        self.ranking_text = ""
 
     def tally(self):
+        if self.tally_text != "":
+            return self.tally_text
         hit_count = 0
         miss_count = 0
         hit_text = "hit: "
@@ -71,7 +81,8 @@ class Game():
                     this_round_text += "player" + str(i) + ": +2"
                     self.scores[i] += 2
                 else:
-                    this_round_text += "player" + str(i) + ": +0"
+                    this_round_text += "player" + str(i) + ": +4" #####
+                    self.scores[i] += 4
                 if i != self.player_count - 1:
                     this_round_text +="\n"
         else:
@@ -88,14 +99,18 @@ class Game():
                     self.scores[i] += 3
                 if i != self.player_count - 1:
                     this_round_text +="\n"
-        return hit_text + "\n" + miss_text + "\n" + this_round_text
+        self.tally_text = hit_text + "\n" + miss_text + "\n" + this_round_text
+        return self.tally_text
 
     def show_ranking(self):
+        if self.ranking_text != "":
+            return self.ranking_text
         text = ""
         for i in range(self.player_count):
             text += "player" + str(i) + ": " + str(self.scores[i])
             if i != self.player_count - 1:
                 text +="\n"
+        self.ranking_text = text
         return text
         
 
@@ -157,6 +172,8 @@ class Game():
     story = -1
     answer = -1
     scores = list()
+    tally_text = ""
+    ranking_text = ""
 
 def create_game():
     new_game = Game()

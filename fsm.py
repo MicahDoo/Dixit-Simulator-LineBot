@@ -4,7 +4,7 @@ from transitions.extensions import GraphMachine
 from heapq import heappop, heappush, heapify
 from game import create_game
 
-from utils import send_text_message, show_hand, send_text_and_image
+from utils import send_text_message, show_hand, send_text_and_image, show_display, send_text_and_question
 
 
 class GameMachine(GraphMachine):
@@ -22,6 +22,7 @@ class UserMachine(GraphMachine):
     my_player_id = 0
     my_game = None
     in_game = False
+    disconnected = False
 
     wait_flag = False
 
@@ -33,6 +34,7 @@ class UserMachine(GraphMachine):
         self.my_room_number = -1
         self.my_player_id = 0
         self.my_game = False
+        self.disconnected = True
 
     def is_going_to_room_created(self, event):
         text = event.message.text
@@ -50,7 +52,7 @@ class UserMachine(GraphMachine):
         self.my_game = data.games[new_room_number]
         self.my_player_id = self.my_game.add_new_player(event.source.user_id)
         self.in_game = True
-        send_text_message(reply_token, "Initializing room...", "Room created!\nYour room number is " + str(new_room_number), "Your player ID: " + str(self.my_player_id), "Would you like to set a password? (Y/N)")
+        send_text_and_question(reply_token, "Initializing room...", "Room created!\nYour room number is " + str(new_room_number), "Your player ID: " + str(self.my_player_id), "Would you like to set a password?")
 
         # n = 10000000
         # while(self.flag == 0):
@@ -123,7 +125,7 @@ class UserMachine(GraphMachine):
         
         if text.lower().find("n") != -1:
             reply_token = event.reply_token
-            send_text_message(reply_token, "Room successfully created!", "Tell your friends to join by texting the room number " + str(self.my_room_number), "Type \"start game\" to start the game")
+            send_text_message(reply_token, "Room successfully created!", "Wait till all of your friends have joined\nType \"Join " + str(self.my_room_number) + ")", "Type \"start game\" to start the game")
         ## I reply here because the actions vary depending on where you are from
 
         return text.lower().find("n") != -1
@@ -142,7 +144,7 @@ class UserMachine(GraphMachine):
         hand = self.my_game.get_hand(self.my_player_id)
 
         reply_token = event.reply_token
-        show_hand(reply_token, hand, 'There are ' + str(self.my_game.player_count) + "player right now\nYou are the storyteller this round.\nPick an image to tell a story about.")
+        show_hand(reply_token, hand, 'You are the storyteller this round.\nPick an image to tell a story about.')
 
     def plays_a_card(self, event):
         text = event.message.text
@@ -178,17 +180,17 @@ class UserMachine(GraphMachine):
     def on_enter_all_cards_played(self, event):
         self.my_game.collected = True
         self.my_game.replace_all_cards()
-        show_hand(event.reply_token, self.my_game.display, "These are your story and all the other distractions:", self.my_game.player_count)
+        show_display(event.reply_token, self.my_game.display, "These are your story and all the other distractions:", self.my_game.player_count, "Continue when all playes have placed their bets")
 
     def storyteller_collected_the_cards(self, event):
         return self.my_game.collected
 
     def on_enter_cards_displayed(self, event):
-        show_hand(event.reply_token, self.my_game.display, "These are the cards to choose from\nWhich one would you bet the story is about?", self.my_game.player_count)
+        show_display(event.reply_token, self.my_game.display, "These are the cards to choose from\nWhich one would you bet the story is about?", self.my_game.player_count)
 
     def end_of_the_game(self, event):
         print("max(self.my_game.scores) ==", max(self.my_game.scores))
-        return max(self.my_game.scores) >= 30
+        return max(self.my_game.scores) >= 5
 
     def everyone_made_a_guess(self, event):
         return self.my_game.guesses.count(-1) == 1
@@ -201,6 +203,12 @@ class UserMachine(GraphMachine):
     def on_enter_storyteller_results_shown(self, event):
         print("printing results?")
         self.my_game.guesses_recorded = True
+        tally_text = self.my_game.tally()
+        leaderboard_text = self.my_game.show_ranking()
+        send_text_message(event.reply_token, "The answer is " + str(self.my_game.answer), tally_text, leaderboard_text)
+
+    def on_enter_scores_tallied(self, event):
+        print("printing results?")
         tally_text = self.my_game.tally()
         leaderboard_text = self.my_game.show_ranking()
         send_text_message(event.reply_token, "The answer is " + str(self.my_game.answer), tally_text, leaderboard_text)
@@ -224,8 +232,9 @@ class UserMachine(GraphMachine):
     def not_storyteller_next_round(self, event):
         return self.my_player_id != (self.my_game.storyteller+1)%self.my_game.player_count
 
-    def card_dealt(self, event):
-        show_hand(event.reply_token, self.my_game.hands[self.my_player_id], "Listen to the storyteller and play a card to confuse your opponents.")
+    def on_enter_card_dealt(self, event):
+        hand = self.my_game.get_hand(self.my_player_id)
+        show_hand(event.reply_token, hand, "Listen to the storyteller and play a card to confuse your opponents.")
 
     def anything(self, event):
         return True
@@ -264,12 +273,18 @@ class UserMachine(GraphMachine):
     def game_finished(self, event):
         print("Checking if game ended")
         text = event.message.text
-        if self.my_player_id == 0 and text.lower().find("quit") != -1:
-            # self.in_game = False
-            data.clear_game(self.my_room_number)
-            print("Game cleared")
-        if not self.in_game:
-            reply_token = event.reply_token
-            send_text_message(reply_token, "Game ended")
-        return not self.in_game
+        if text.lower().find("quit") != -1: # only room owner or if you haven't joined any game yet can quit
+            if not self.in_game:
+                send_text_message(event.reply_token, "Game ended.")
+                return True
+            if self.my_player_id == 0:
+                # self.in_game = False
+                data.clear_game(self.my_room_number)
+                send_text_message(event.reply_token, "Game ended.")
+                return True
+        elif not self.in_game and self.disconnected:
+            self.disconnected = False
+            send_text_message(event.reply_token, "Game ended.")
+            return True
+        return False
 
