@@ -70,8 +70,6 @@ def webhook_handler():
     body = request.get_data(as_text=True)
     app.logger.info(f"Request body: {body}")
 
-    create_user_fsm().get_graph().draw("fsmmm.png", prog="dot", format="png")
-
     # parse webhook body
     try:
         events = parser.parse(body, signature)
