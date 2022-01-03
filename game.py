@@ -60,7 +60,7 @@ class Game():
         self.ranking_text = ""
 
     def tally(self):
-        if self.tally_text != ""
+        if self.tally_text != "":
             return self.tally_text
         hit_count = 0
         miss_count = 0
