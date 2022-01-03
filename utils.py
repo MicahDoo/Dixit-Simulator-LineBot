@@ -1,5 +1,6 @@
 import os
 import data
+import copy
 
 from linebot import LineBotApi, WebhookParser
 from linebot.models import MessageEvent, TextMessage, BubbleContainer, TextSendMessage, FlexContainer, FlexSendMessage, ImageSendMessage, ImageCarouselTemplate, ImageCarouselColumn, TemplateSendMessage, MessageAction, QuickReplyButton, QuickReply, ConfirmTemplate, MessageTemplateAction
@@ -47,7 +48,7 @@ def show_hand(reply_token, hand, text, n = 5):
     #     )
     # )
     for i in range(n):
-        image_json = dict(data.image_bubble)  ###NOTE: IMPORTANT: hard copy
+        image_json = copy.deepcopy(data.image_bubble)  ###NOTE: IMPORTANT: hard copy
         # print(type(image_json['body']['contents']))
         # print(image_json['body']['contents'])
         # if 'contents' not in image_json['body']:
