@@ -48,15 +48,15 @@ def show_hand(reply_token, hand, text, n = 5):
     # )
     for i in range(n):
         image_json = data.image_bubble
-        print(type(image_json['body']['contents']))
-        print(image_json['body']['contents'])
-        if 'contents' not in image_json['body']:
-            print("contents not in image_json")
-        else:
-            print("contents in image_json")
+        # print(type(image_json['body']['contents']))
+        # print(image_json['body']['contents'])
+        # if 'contents' not in image_json['body']:
+        #     print("contents not in image_json")
+        # else:
+        #     print("contents in image_json")
         image_json['action']['text'] = str(i+1)
         image_json['body']['contents'][0]['url'] = data.img_urls[hand[i]]
-        image_json['body']['contents'][0]['contents'][1]['text'] = str(i+1)
+        image_json['body']['contents'][1]['contents'][0]['text'] = str(i+1)
         hand_json['contents'].append(image_json)
     hand_template = FlexSendMessage("Show hand", hand_json)
     send_message(reply_token, TextSendMessage(text=text), hand_template)
