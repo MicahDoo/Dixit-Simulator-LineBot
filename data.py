@@ -77,11 +77,11 @@ def init():
             ],
             "paddingAll": "0px"
         },
-        # "action": {
-        #     "type": "message",
-        #     "label": "action",
-        #     "text": "1"
-        # }
+        "action": {
+            "type": "message",
+            "label": "action",
+            "text": "1"
+        }
         }
 
     global game_over

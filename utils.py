@@ -42,7 +42,7 @@ def show_hand(reply_token, hand, text, n = 5):
     hand_json = copy.deepcopy(data.flex_carousel)
     for i in range(n):
         image_json = copy.deepcopy(data.image_bubble)  ###NOTE: IMPORTANT: hard copy
-        # image_json['action']['text'] = str(i+1)
+        image_json['action']['text'] = str(i+1)
         image_json['body']['contents'][0]['url'] = data.img_urls[hand[i]]
         image_json['body']['contents'][1]['contents'][0]['text'] = str(i+1)
         hand_json['contents'].append(image_json)
@@ -89,7 +89,7 @@ def send_text_and_image(reply_token, text, image_number, text1 = None, text2 = N
         send_message(reply_token, TextSendMessage(text=text), ImageSendMessage(original_content_url = image_url, preview_image_url = image_url))
 
 def send_text_and_question(reply_token, text1, text2 = None, text3 = None, text4 = None, text5 = None):
-    question_template = TemplateSendMessage(alt_text='template', template=ConfirmTemplate(size="giga", title='ConfirmTemplate', text=text1, actions=[MessageTemplateAction(label='Yes', text='Yes'), MessageTemplateAction(label='No', text='No')]))
+    question_template = TemplateSendMessage(alt_text='template', template=ConfirmTemplate(title='ConfirmTemplate', text=text1, actions=[MessageTemplateAction(label='Yes', text='Yes'), MessageTemplateAction(label='No', text='No')]))
     if text5 != None:
         question_template.template.text = text5
         send_message(reply_token, TextSendMessage(text=text1), TextSendMessage(text=text2), TextSendMessage(text=text3), TextSendMessage(text=text4), question_template)
