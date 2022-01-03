@@ -195,18 +195,16 @@ class UserMachine(GraphMachine):
         leaderboard_text = self.my_game.show_ranking()
         print("tally_text = ", tally_text)
         print("leaderboard_text = ", leaderboard_text)
-        send_text_and_image(event.reply_token, "Answer: " + str(self.my_game.answer), self.my_game.story, tally_text, leaderboard_text)
+        send_text_and_image(event.reply_token, "Answer:", self.my_game.story, tally_text, leaderboard_text)
 
     def on_enter_scores_tallied(self, event):
         tally_text = self.my_game.tally()
         leaderboard_text = self.my_game.show_ranking()
         print("tally_text = ", tally_text)
         print("leaderboard_text = ", leaderboard_text)
-        send_text_and_image(event.reply_token, "Answer: " + str(self.my_game.answer), self.my_game.story, tally_text, leaderboard_text)
+        send_text_and_image(event.reply_token, "Answer:", self.my_game.story, tally_text, leaderboard_text)
 
     def on_enter_final_results_shown(self, event):
-        # tally_text = self.my_game.tally()
-        # leaderboard_text = self.my_game.show_ranking()
         send_text_message(event.reply_token, "Game Over")
 
     def storyteller_next_round(self, event):

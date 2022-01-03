@@ -78,7 +78,9 @@ class Game():
                     self.scores[i] += 2
                 else:
                     this_round_text += "player" + str(i) + ": +4" #####
+                    print("score goes from", self.scores[i])
                     self.scores[i] += 4
+                    print("to", self.scores[i])
                 if i != self.player_count - 1:
                     this_round_text +="\n"
         else:
