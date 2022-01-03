@@ -50,7 +50,7 @@ def show_hand_listener(reply_token, hand, text, n = 5):
         hand_json['contents'].append(image_json)
     hand_template = FlexSendMessage("Show hand", hand_json)
     role_json = data.listener_template
-    role_json['contents'][0]['contents'][1]['contents'][0]['contents'][0]['text'] = data.listener_messages[randint(0, len(data.listener_messages)-1)]
+    role_json['contents'][0]['body']['contents'][1]['contents'][0]['contents'][0]['text'] = data.listener_messages[randint(0, len(data.listener_messages)-1)]
     role = FlexSendMessage("Storyteller role", role_json)
     send_message(reply_token, TextSendMessage(text=text), role, hand_template)
 
@@ -68,7 +68,7 @@ def show_hand_storyteller(reply_token, hand, text, n = 5):
         hand_json['contents'].append(image_json)
     hand_template = FlexSendMessage("Show hand", hand_json)
     role_json = data.storyteller_template
-    role_json['contents'][0]['contents'][1]['contents'][0]['contents'][0]['text'] = data.storyteller_messages[randint(0, len(data.storyteller_messages))]
+    role_json['contents'][0]['body']['contents'][1]['contents'][0]['contents'][0]['text'] = data.storyteller_messages[randint(0, len(data.storyteller_messages)-1)]
     role = FlexSendMessage("Storyteller role", role_json)
     send_message(reply_token, TextSendMessage(text=text), role, hand_template)
 
@@ -88,7 +88,7 @@ def start_show_hand_storyteller(reply_token, hand, text, n = 5):
         hand_json['contents'].append(image_json)
     hand_template = FlexSendMessage("Show hand", hand_json)
     role_json = data.storyteller_template
-    role_json['contents'][0]['contents'][1]['contents'][0]['contents'][0]['text'] = data.storyteller_messages[randint(0, len(data.storyteller_messages))]
+    role_json['contents'][0]['body']['contents'][1]['contents'][0]['contents'][0]['text'] = data.storyteller_messages[randint(0, len(data.storyteller_messages)-1)]
     role = FlexSendMessage("Storyteller role", role_json)
     send_message(reply_token, message, TextSendMessage(text=text), role, hand_template)
 
@@ -108,7 +108,7 @@ def start_show_hand_listener(reply_token, hand, text, n = 5):
         hand_json['contents'].append(image_json)
     hand_template = FlexSendMessage("Show hand", hand_json)
     role_json = data.listener_template
-    role_json['contents'][0]['contents'][1]['contents'][0]['contents'][0]['text'] = data.listener_messages[randint(0, len(data.listener_messages)-1)]
+    role_json['contents'][0]['body']['contents'][1]['contents'][0]['contents'][0]['text'] = data.listener_messages[randint(0, len(data.listener_messages)-1)]
     role = FlexSendMessage("Listener role", role_json)
     send_message(reply_token, message, TextSendMessage(text=text), role, hand_template)
 

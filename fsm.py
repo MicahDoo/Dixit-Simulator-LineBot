@@ -171,13 +171,13 @@ class UserMachine(GraphMachine):
     def on_enter_all_cards_played(self, event):
         self.my_game.collected = True
         self.my_game.replace_all_cards()
-        show_display(event.reply_token, self.my_game.display, "These are your story and all the other distractions:", self.my_game.player_count, "Continue when all players have placed their bets.")
+        show_display(event.reply_token, self.my_game.display, "Can your audience see through your story?", self.my_game.player_count, "Continue when all players have placed their bets.")
 
     def storyteller_collected_the_cards(self, event):
         return self.my_game.collected
 
     def on_enter_cards_displayed(self, event):
-        show_display(event.reply_token, self.my_game.display, "These are the cards to choose from\nWhich one would you bet the story is about?", self.my_game.player_count)
+        show_display(event.reply_token, self.my_game.display, "Can you spot the story from these cards?", self.my_game.player_count)
 
     def end_of_the_game(self, event):
         print("max(self.my_game.scores) ==", max(self.my_game.scores))
