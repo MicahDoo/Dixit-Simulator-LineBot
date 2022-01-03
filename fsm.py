@@ -144,7 +144,7 @@ class UserMachine(GraphMachine):
         hand = self.my_game.get_hand(self.my_player_id)
 
         reply_token = event.reply_token
-        show_hand(reply_token, hand, 'You are the storyteller this round.\nPick an image to tell a story about.')
+        show_hand(reply_token, hand, 'You are the storyteller.\nPick an image.\nTell a story.')
 
     def plays_a_card(self, event):
         text = event.message.text
@@ -163,7 +163,7 @@ class UserMachine(GraphMachine):
     def plays_a_card_as_story(self, event):
         text = event.message.text
         if text.isnumeric() and 0 < int(text) <= 5:
-            send_text_and_image(event.reply_token, "You chose image " + text + " to tell a story about: ", self.my_game.hands[self.my_player_id][int(text)-1], "Now, make up a sentence related to this picture and say it out loud.\nAfter all players have selected a card, type \"Next\"")
+            send_text_and_image(event.reply_token, "You chose image " + text + " for your story:", self.my_game.hands[self.my_player_id][int(text)-1], "Now, make up a sentence related to this picture and say it out loud.\nType \"Next\" when everyone's played a card.")
             self.my_game.log_story(self.my_player_id, int(text)-1)
         return text.isnumeric() and 0 < int(text) <= 5
 
