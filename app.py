@@ -96,7 +96,7 @@ def webhook_handler():
         print(f"REQUEST BODY: \n{body}")
         response = machine.advance(event)
         if response == False:
-            send_text_message(event.reply_token, "Instruction not recognized")
+            send_text_message(event.reply_token, "No action taken")
 
     return "OK"
 

@@ -75,7 +75,7 @@ class Game():
                     miss_count += 1
                     miss_text += "player" + str(i) + " "
         this_round_text = ""
-        if hit_count == 0 or miss_count == self.player_count:
+        if hit_count == 0 or miss_count == self.player_count-1:
             for i in range(self.player_count):
                 if i != self.storyteller:
                     this_round_text += "player" + str(i) + ": +2"
@@ -92,7 +92,7 @@ class Game():
                         this_round_text += "player" + str(i) + ": +3"
                         self.scores[i] += 3
                     elif self.guesses[i] == i:
-                        this_round_text += "player" + str(i) + ": +1 (Guessed their own card)"
+                        this_round_text += "player" + str(i) + ": +1"
                         self.scores[i] += 1
                 else:
                     this_round_text += "player" + str(i) + ": +3"
@@ -157,6 +157,13 @@ class Game():
     def is_game_alive(self):
         return self.game_started
 
+    def comeplete_room_creation(self):
+        self.create_complete = True
+
+    def room_joinable(self):
+        return self.create_complete
+
+    create_complete = False
     player_count = int()
     collected = False
     guesses_recorded = False

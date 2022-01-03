@@ -68,7 +68,6 @@ class UserMachine(GraphMachine):
 
     def is_joining_game(self, event):
         text = event.message.text
-        print("Is this join?", text)
         words = text.split(" ")
         if len(words) == 2 and words[0].lower() == "join" and words[1].isnumeric():
             room_number = int(words[1])
@@ -76,7 +75,7 @@ class UserMachine(GraphMachine):
                 print("Game exists")
                 self.my_room_number = room_number
                 self.my_game = data.games[room_number]
-                if not self.my_game.password_protected:
+                if self.my_game.room_joinable() and not self.my_game.password_protected:
                     return True
                 else:
                      return False
@@ -93,7 +92,7 @@ class UserMachine(GraphMachine):
             if data.games[room_number] != None:
                 self.my_room_number = room_number
                 self.my_game = data.games[room_number]
-                if self.my_game.password_protected:
+                if self.my_game.room_joinable() and self.my_game.password_protected:
                     return True
                 else:
                      return False
@@ -125,13 +124,14 @@ class UserMachine(GraphMachine):
         
         if text.lower().find("n") != -1:
             reply_token = event.reply_token
-            send_text_message(reply_token, "Room successfully created!", "Wait till all of your friends have joined\nType \"Join " + str(self.my_room_number) + ")", "Type \"start game\" to start the game")
+            send_text_message(reply_token, "Room successfully created!", "Wait till all of your friends have joined.\n(Type \"Join " + str(self.my_room_number) + "\")", "Type \"start game\" to start the game")
         ## I reply here because the actions vary depending on where you are from
 
         return text.lower().find("n") != -1
 
     def on_enter_waiting_for_players(self, event):
         print("I'm entering waiting_for_players")
+        self.my_game.complete_room_creation()
 
     def game_ready_to_start(self, event):
         text = event.message.text
