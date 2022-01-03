@@ -48,7 +48,7 @@ def show_hand(reply_token, hand, text, n = 5):
     # )
     for i in range(n):
         image_json = data.image_bubble
-        print(type(image_json['body']))
+        print(type(image_json['body']['contents']))
         if 'contents' not in image_json['body']:
             print("contents not in image_json")
         else:
