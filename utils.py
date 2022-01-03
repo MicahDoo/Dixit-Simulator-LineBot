@@ -39,7 +39,6 @@ def show_hand(reply_token, hand, text, n = 5):
         cards = cards + " " + str(card)
     print(cards)
     hand_json = data.flex_carousel
-    hand_template = FlexSendMessage("Show hand", hand_json)
     # hand_template = TemplateSendMessage(
     #     alt_text='Buttons Template',
     #     template=ImageCarouselTemplate(
@@ -49,22 +48,11 @@ def show_hand(reply_token, hand, text, n = 5):
     # )
     for i in range(n):
         image_json = data.image_bubble
-        image_flex = FlexContainer(image_json)
-        print(image_flex)
-        image = BubbleContainer(image_flex)
-        print(image)
-        image.action = MessageAction(text=str(i+1))
-        image.body.contents[0].url = data.img_urls[hand[i]]
-        image.body.contents[1].contents[0].text = str(i+1)
-        hand_template.template.columns.append(
-            image
-            # ImageCarouselColumn(
-            #     image_url=data.img_urls[hand[i]],
-            #     action=MessageAction(
-            #         text=str(i+1)
-            #     )
-            # )
-        )
+        image_json['action']['text'] = str(i+1)
+        image_json['body']['contents'][0]['url'] = data.img_urls[hand[i]]
+        image_json['body']['contents'][0]['contents'][1]['text'] = str(i+1)
+        hand_json['contents'].append(image_json)
+    hand_template = FlexSendMessage("Show hand", hand_json)
     send_message(reply_token, TextSendMessage(text=text), hand_template)
 
 def show_display(reply_token, display, text, n, text1 = None):
