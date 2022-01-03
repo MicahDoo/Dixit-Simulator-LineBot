@@ -41,32 +41,12 @@ def create_user_fsm():
             {'trigger': 'advance', 'source': 'storyteller_card_dealt', 'dest': 'story_told', 'conditions': 'plays_a_card_as_story'},
             
 
-            {"trigger": "go_back", "source": [
-                'room_created', 'create_password', 'enter_password', 'waiting_for_players', 'in_room', 'in_game'
-                ], "dest": "user"},
+            {"trigger": "go_back", "source": ['room_created', 'waiting_for_players', 'in_room', 'hosting_game', 
+        'in_game', 'card_played', 'cards_displayed', 'guess_made', 'scores_tallied', 'card_dealt', 'story_told', 
+        'all_cards_played', 'storyteller_results_shown', 'storyteller_card_dealt', 'final_results_shown'], "dest": "user"},
         ],
         initial='user',
         auto_transitions=False,
         show_conditions=True,
     )
     return machine
-
-
-def create_game_fsm():
-    machine = GameMachine(
-        states=['idle', 'game_started', 'story_told', 'cards_played', 'cards_chosen', 'end_of_round', 'cards_dealt'],
-        transitions=[
-            {'trigger': 'advance', 'source': 'idle', 'dest': 'game_started', 'conditions': 'is_going_to_start_game'},
-            {'trigger': 'advance', 'source': 'game_started', 'dest': 'story_told', 'conditions': 'storyteller_told_the_story'},
-            {'trigger': 'advance', 'source': 'story_told', 'dest': 'cards_played', 'conditions': 'everyone_played_their_card'},
-            {'trigger': 'advance', 'source': 'cards_played', 'dest': 'cards_chosen', 'conditions': 'everyone_chose_their_card'},
-            {'trigger': 'advance', 'source': 'cards_chosen', 'dest': 'end_of_round', 'conditions': 'everyone_confirmed_reveal'},
-            {'trigger': 'advance', 'source': 'cards_dealt', 'dest': 'story_told', 'conditions': 'storyteller_told_the_story'},
-            {'trigger': "go_back", "source": [
-                'game_started', 'story_told', 'cards_played', 'cards_chosen', 'end_of_round', 'cards_dealt'
-                ], "dest": "user"},
-        ],
-        initial='user',
-        auto_transitions=False,
-        show_conditions=True,
-    )
