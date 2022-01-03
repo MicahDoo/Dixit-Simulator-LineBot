@@ -4,11 +4,11 @@ def create_user_fsm():
     machine = UserMachine(
         states=['user', 'room_created', 'create_password', 'enter_password', 'waiting_for_players', 'in_room', 'hosting_game', 
         'in_game', 'card_played', 'cards_displayed', 'guess_made', 'scores_tallied', 'card_dealt', 'story_told', 
-        'all_cards_played', 'storyteller_results_shown', 'storyteller_card_dealt'],
+        'all_cards_played', 'storyteller_results_shown', 'storyteller_card_dealt', 'final_results_shown'],
         transitions=[
             {'trigger': 'advance', 'source': ['room_created', 'waiting_for_players', 'in_room', 'hosting_game', 
         'in_game', 'card_played', 'cards_displayed', 'guess_made', 'scores_tallied', 'card_dealt', 'story_told', 
-        'all_cards_played', 'storyteller_results_shown', 'storyteller_card_dealt', 'final_results_shown'], 'dest': 'user', 'conditions': 'game_finished'},
+        'all_cards_played', 'storyteller_results_shown', 'storyteller_card_dealt'], 'dest': 'user', 'conditions': 'game_finished'},
             {'trigger': 'advance', 'source': 'user', 'dest': 'room_created', 'conditions': 'is_going_to_room_created'},
             {'trigger': 'advance', 'source': 'room_created', 'dest': 'waiting_for_players', 'conditions': 'is_not_setting_password'},
             {'trigger': 'advance', 'source': 'room_created', 'dest': 'create_password', 'conditions': 'is_setting_password'},
