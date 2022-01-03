@@ -234,7 +234,7 @@ def init():
                 "backgroundColor": "#D1D9D9"
                 },
                 "hero": {
-                "separator": false
+                "separator": False
                 }
             }
             }
