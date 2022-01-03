@@ -80,7 +80,7 @@ def init():
         },
         "styles": {
             "footer": {
-            "separator": false
+            "separator": "false"
             }
         }
         }
