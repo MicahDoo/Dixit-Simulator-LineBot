@@ -58,6 +58,7 @@ def show_hand(reply_token, hand, text, n = 5):
         image_json['body']['contents'][0]['url'] = data.img_urls[hand[i]]
         image_json['body']['contents'][1]['contents'][0]['text'] = str(i+1)
         hand_json['contents'].append(image_json)
+        print(hand_json)
     hand_template = FlexSendMessage("Show hand", hand_json)
     send_message(reply_token, TextSendMessage(text=text), hand_template)
 
