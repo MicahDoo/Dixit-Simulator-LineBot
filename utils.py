@@ -49,7 +49,9 @@ def show_hand(reply_token, hand, text, n = 5):
     # )
     for i in range(n):
         image_json = data.image_bubble
-        image = BubbleContainer(image_json)
+        image_flex = FlexContainer(image_json)
+        print(image_flex)
+        image = BubbleContainer(image_flex)
         print(image)
         image.action = MessageAction(text=str(i+1))
         image.body.contents[0].url = data.img_urls[hand[i]]
