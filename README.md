@@ -23,6 +23,8 @@
 
 最先到達30分者獲得勝利。
 
+# <img alt="YAP" src="https://i.imgur.com/F3eLXKc.png">
+
 
 # LineBot 2021
 ## 以下為作業ReadMe範本
