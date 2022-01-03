@@ -135,7 +135,7 @@ class UserMachine(GraphMachine):
         hand = self.my_game.get_hand(self.my_player_id)
 
         reply_token = event.reply_token
-        start_show_hand_listener(reply_token, hand, 'Your role:')
+        start_show_hand_storyteller(reply_token, hand, 'Your role:')
 
     def plays_a_card(self, event):
         text = event.message.text

@@ -45,7 +45,7 @@ def init():
     listener_messages = ['I\'ve heared.. I\'ve seen that story before...']
     listener_messages = ['They have the words... but you have the pictures.']
     listener_messages = ['What you hear might not be what you see.']
-    listener_messages = ['Befuzzle them, as they will rightly do you.']
+    listener_messages = ['Befuzzle them, as they will rightly you.']
 
     global storyteller_template
     storyteller_template = {
