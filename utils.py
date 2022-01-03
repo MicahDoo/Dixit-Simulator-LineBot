@@ -89,7 +89,7 @@ def send_text_and_image(reply_token, text, image_number, text1 = None, text2 = N
         send_message(reply_token, TextSendMessage(text=text), ImageSendMessage(original_content_url = image_url, preview_image_url = image_url))
 
 def send_text_and_question(reply_token, text1, text2 = None, text3 = None, text4 = None, text5 = None):
-    question_template = TemplateSendMessage(alt_text='template', template=ConfirmTemplate(title='ConfirmTemplate', text=text1, actions=[MessageTemplateAction(label='Yes', text='Yes'), MessageTemplateAction(label='No', text='No')]))
+    question_template = TemplateSendMessage(alt_text='template', template=ConfirmTemplate(size="giga", title='ConfirmTemplate', text=text1, actions=[MessageTemplateAction(label='Yes', text='Yes'), MessageTemplateAction(label='No', text='No')]))
     if text5 != None:
         question_template.template.text = text5
         send_message(reply_token, TextSendMessage(text=text1), TextSendMessage(text=text2), TextSendMessage(text=text3), TextSendMessage(text=text4), question_template)
