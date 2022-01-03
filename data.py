@@ -80,7 +80,7 @@ def init():
                             "size": "md",
                             "color": "#ffffff",
                             "weight": "bold",
-                            "wrap": true
+                            "wrap": True
                         }
                         ]
                     },
@@ -94,7 +94,7 @@ def init():
                             "color": "#ebebeb",
                             "size": "sm",
                             "flex": 0,
-                            "wrap": true
+                            "wrap": True
                         }
                         ],
                         "spacing": "lg"
@@ -177,7 +177,7 @@ def init():
                             "size": "md",
                             "color": "#ffffff",
                             "weight": "bold",
-                            "wrap": true
+                            "wrap": True
                         }
                         ]
                     },
@@ -191,7 +191,7 @@ def init():
                             "color": "#ebebeb",
                             "size": "sm",
                             "flex": 0,
-                            "wrap": true
+                            "wrap": True
                         }
                         ],
                         "spacing": "lg"
