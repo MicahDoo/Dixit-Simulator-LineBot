@@ -83,6 +83,66 @@ def init():
             "text": "1"
         }
         }
+
+    global game_over
+    game_over = {
+        "type": "bubble",
+        "size": "giga",
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": "🎊 Game over! 🎊",
+                    "weight": "bold",
+                    "size": "xxl",
+                    "margin": "xl",
+                    "align": "center"
+                },
+                {
+                    "type": "text",
+                    "text": "Did you get your fair share of fun?\nLet's play again?",
+                    "size": "md",
+                    "wrap": True,
+                    "margin": "lg",
+                    "align": "center"
+                }
+            ],
+            "color": "#BFACAA"
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "button",
+                    "style": "primary",
+                    "action": {
+                        "type": "message",
+                        "label": "Yes, please",
+                        "text": "Play again"
+                    },
+                    "color": "#654321"
+                },
+                {
+                    "type": "button",
+                    "style": "primary",
+                    "action": {
+                        "type": "message",
+                        "label": "Nope, too much fun",
+                        "text": "Quit"
+                    },
+                    "color": "#3B5249"
+                }
+            ]
+        },
+        "styles": {
+            "footer": {
+                "separator": True
+            }
+        }
+        }
        
 
 

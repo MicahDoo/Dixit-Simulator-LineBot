@@ -70,8 +70,9 @@ def show_display(reply_token, display, text, n, text1 = None):
         send_message(reply_token, TextSendMessage(text=text), display_template)
 
 def show_game_over(reply_token):
-    send_message(reply_token, TextSendMessage(text="Game Over."), TextSendMessage(
-        text="Do you want to play again?", quick_reply=[QuickReply(items=[QuickReplyButton(action=MessageAction(label="Play again", text="Again"))]), QuickReply(items=[QuickReplyButton(action=MessageAction(label="Quit", text="Quit"))])]))
+    message_json = data.game_over
+    message = FlexSendMessage("Game over", message_json)
+    send_message(reply_token, message)
 
 
 def send_text_and_image(reply_token, text, image_number, text1 = None, text2 = None):
