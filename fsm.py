@@ -149,7 +149,7 @@ class UserMachine(GraphMachine):
     def plays_a_card(self, event):
         text = event.message.text
         if text.isnumeric() and 0 < int(text) <= 5:
-            send_text_and_image(event.reply_token, "You played card " + text + " to confuse the opponent: ", self.my_game.hands[self.my_player_id][int(text)-1])
+            send_text_and_image(event.reply_token, "You played card " + text + " to confuse the opponent: ", self.my_game.hands[self.my_player_id][int(text)-1], "Continue after everyone plays a card and the storyteller collects the cards.")
             self.my_game.log_distraction(self.my_player_id, int(text)-1)
         return text.isnumeric() and 0 < int(text) <= 5
 
