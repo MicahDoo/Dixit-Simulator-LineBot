@@ -1,5 +1,4 @@
 from fsm import UserMachine
-from fsm import GameMachine
 
 def create_user_fsm():
     machine = UserMachine(
