@@ -4,7 +4,9 @@ from transitions.extensions import GraphMachine
 from heapq import heappop, heappush, heapify
 from game import create_game
 
-from utils import send_text_message, show_hand, start_show_hand, send_text_and_image, show_display, send_text_and_question, show_game_over
+from random import randint
+
+from utils import send_text_message, start_show_hand_listener, start_show_hand_storyteller, show_hand_listener, show_hand_storyteller, send_text_and_image, show_display, send_text_and_question, show_game_over
 
 class UserMachine(GraphMachine):
     my_room_number = -1
@@ -133,7 +135,7 @@ class UserMachine(GraphMachine):
         hand = self.my_game.get_hand(self.my_player_id)
 
         reply_token = event.reply_token
-        start_show_hand(reply_token, hand, 'You are the storyteller.\nPick an image.\nTell a story.')
+        start_show_hand_listener(reply_token, hand, 'Your role:')
 
     def plays_a_card(self, event):
         text = event.message.text
@@ -231,15 +233,14 @@ class UserMachine(GraphMachine):
         hand = self.my_game.get_hand(self.my_player_id)
 
         reply_token = event.reply_token
-        # send_text_message(reply_token, "Here are your cards:" + str(hand))
-        show_hand(reply_token, hand, 'You are the storyteller this round.\nPick an image to tell a story about.')
+        show_hand_storyteller(reply_token, hand, 'Your role:', )
 
     def not_storyteller_next_round(self, event):
         return self.my_player_id != (self.my_game.storyteller+1)%self.my_game.player_count
 
     def on_enter_card_dealt(self, event):
         hand = self.my_game.get_hand(self.my_player_id)
-        show_hand(event.reply_token, hand, "Listen to the storyteller and play a card to confuse your opponents.")
+        show_hand_listener(event.reply_token, hand, "Your role:")
 
     def anything(self, event):
         return True
@@ -272,7 +273,7 @@ class UserMachine(GraphMachine):
 
     def on_enter_in_game(self, event):
         print("In game")
-        start_show_hand(event.reply_token, self.my_game.hands[self.my_player_id], "Listen to the storyteller and play a card to confuse your opponents.")
+        start_show_hand_listener(event.reply_token, self.my_game.hands[self.my_player_id], "Your role:")
 
 
     def game_finished(self, event):

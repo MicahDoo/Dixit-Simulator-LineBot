@@ -29,6 +29,218 @@ def init():
     img_urls += ['https://i.imgur.com/KVtJNwh.jpg', 'https://i.imgur.com/IEAEYct.jpg', 'https://i.imgur.com/ukEN5QE.jpg', 'https://i.imgur.com/vFarBiM.jpg', 'https://i.imgur.com/3hV1TnW.jpg', 'https://i.imgur.com/mQU5EOs.jpg', 'https://i.imgur.com/w8It5aZ.jpg', 'https://i.imgur.com/lKhYFrb.jpg', 'https://i.imgur.com/Pk36ixw.jpg']
     img_urls += ['https://i.imgur.com/KuE5Qbf.jpg', 'https://i.imgur.com/U4gpBKh.jpg', 'https://i.imgur.com/n3w333y.jpg', 'https://i.imgur.com/ccfLedo.jpg', 'https://i.imgur.com/3SfnxbY.jpg', 'https://i.imgur.com/hvpX9Zq.jpg', 'https://i.imgur.com/laWkwvX.jpg', 'https://i.imgur.com/0AsS5Mb.jpg', 'https://i.imgur.com/qvtb9ze.jpg']
 
+    global storyteller_messages
+    storyteller_messages = ['Enchant them with your tale.']
+    storyteller_messages += ['Give them the bare minimum. Spare the fuzzy details.']
+    storyteller_messages += ['Vague or clear? I\'ll have both.']
+    storyteller_messages += ['Imagination is key.']
+    storyteller_messages += ['Kill them with vagueness, revive them with clarity.']
+    storyteller_messages += ['Victory lies in subtlety.']
+    storyteller_messages += ['What you say might not be what they hear.']
+    storyteller_messages += ['Give them something to scratch their heads about.']
+
+    global listener_messages   
+    listener_messages = ['Listen and bemuse.']
+    listener_messages = ['The power is on your to confuse.']
+    listener_messages = ['I\'ve heared.. I\'ve seen that story before...']
+    listener_messages = ['They have the words... but you have the pictures.']
+    listener_messages = ['What you hear might not be what you see.']
+    listener_messages = ['Befuzzle them, as they will rightly do you.']
+
+    global storyteller_template
+    storyteller_template = {
+        "type": "carousel",
+        "contents": [
+            {
+            "type": "bubble",
+            "size": "kilo",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "image",
+                    "url": "https://i.imgur.com/yrEeehO.jpg",
+                    "size": "full",
+                    "aspectMode": "cover",
+                    "aspectRatio": "2:3",
+                    "gravity": "top"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                        {
+                            "type": "text",
+                            "text": "Give them the bare minimum. Spare the fuzzy details.",
+                            "size": "md",
+                            "color": "#ffffff",
+                            "weight": "bold",
+                            "wrap": true
+                        }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                        {
+                            "type": "text",
+                            "text": "Pick a card. \nTell a story about it.",
+                            "color": "#ebebeb",
+                            "size": "sm",
+                            "flex": 0,
+                            "wrap": true
+                        }
+                        ],
+                        "spacing": "lg"
+                    }
+                    ],
+                    "position": "absolute",
+                    "offsetBottom": "0px",
+                    "offsetStart": "0px",
+                    "offsetEnd": "0px",
+                    "backgroundColor": "#725b0777",
+                    "paddingAll": "20px",
+                    "paddingTop": "18px"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                    {
+                        "type": "text",
+                        "text": "THE STORYTELLER",
+                        "color": "#ffffff",
+                        "align": "center",
+                        "size": "xs",
+                        "offsetTop": "6px"
+                    }
+                    ],
+                    "position": "absolute",
+                    "cornerRadius": "20px",
+                    "height": "30px",
+                    "offsetTop": "10px",
+                    "offsetStart": "10px",
+                    "backgroundColor": "#56344477",
+                    "offsetEnd": "10px"
+                }
+                ],
+                "paddingAll": "0px"
+            },
+            "styles": {
+                "header": {
+                "backgroundColor": "#D1D9D9"
+                },
+                "hero": {
+                "separator": False
+                }
+            }
+            }
+        ]
+        }
+
+    global listener_template
+    listener_template = {
+        "type": "carousel",
+        "contents": [
+            {
+            "type": "bubble",
+            "size": "kilo",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "image",
+                    "url": "https://i.imgur.com/GEDlJoI.jpg",
+                    "size": "full",
+                    "aspectMode": "cover",
+                    "aspectRatio": "2:3",
+                    "gravity": "top"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                        {
+                            "type": "text",
+                            "text": "They have the words... but you have the pictures.",
+                            "size": "md",
+                            "color": "#ffffff",
+                            "weight": "bold",
+                            "wrap": true
+                        }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "contents": [
+                        {
+                            "type": "text",
+                            "text": "Pick an image. \nConfuse the other audience.",
+                            "color": "#ebebeb",
+                            "size": "sm",
+                            "flex": 0,
+                            "wrap": true
+                        }
+                        ],
+                        "spacing": "lg"
+                    }
+                    ],
+                    "position": "absolute",
+                    "offsetBottom": "0px",
+                    "offsetStart": "0px",
+                    "offsetEnd": "0px",
+                    "backgroundColor": "#33341177",
+                    "paddingAll": "20px",
+                    "paddingTop": "18px"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                    {
+                        "type": "text",
+                        "text": "THE LISTENER",
+                        "color": "#ffffff",
+                        "align": "center",
+                        "size": "xs",
+                        "offsetTop": "6px"
+                    }
+                    ],
+                    "position": "absolute",
+                    "cornerRadius": "20px",
+                    "height": "30px",
+                    "offsetTop": "10px",
+                    "offsetStart": "10px",
+                    "backgroundColor": "#13220077",
+                    "offsetEnd": "10px"
+                }
+                ],
+                "paddingAll": "0px"
+            },
+            "styles": {
+                "header": {
+                "backgroundColor": "#D1D9D9"
+                },
+                "hero": {
+                "separator": false
+                }
+            }
+            }
+        ]
+        }
+
     global flex_carousel
     flex_carousel = {
         "type": "carousel",

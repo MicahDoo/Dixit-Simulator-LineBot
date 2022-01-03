@@ -5,6 +5,8 @@ import copy
 from linebot import LineBotApi, WebhookParser
 from linebot.models import MessageEvent, TextMessage, BubbleContainer, TextSendMessage, FlexContainer, FlexSendMessage, ImageSendMessage, ImageCarouselTemplate, ImageCarouselColumn, TemplateSendMessage, MessageAction, QuickReplyButton, QuickReply, ConfirmTemplate, MessageTemplateAction
 
+from random import randint
+
 channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
 
 def send_text_message(reply_token, text1, text2 = None, text3 = None, text4 = None, text5 = None):
@@ -34,7 +36,7 @@ def send_message(reply_token, msg1, msg2 = None, msg3 = None, msg4 = None, msg5 
         line_bot_api.reply_message(reply_token, msg1)
     return "OK"
 
-def show_hand(reply_token, hand, text, n = 5):
+def show_hand_listener(reply_token, hand, text, n = 5):
     cards = " "
     for card in hand:
         cards = cards + " " + str(card)
@@ -47,9 +49,30 @@ def show_hand(reply_token, hand, text, n = 5):
         image_json['body']['contents'][1]['contents'][0]['text'] = str(i+1)
         hand_json['contents'].append(image_json)
     hand_template = FlexSendMessage("Show hand", hand_json)
-    send_message(reply_token, TextSendMessage(text=text), hand_template)
+    role_json = data.listener_template
+    role_json['contents'][0]['contents'][1]['contents'][0]['contents'][0]['text'] = data.listener_messages[randint(0, len(data.listener_messages))]
+    role = FlexSendMessage("Storyteller role", role_json)
+    send_message(reply_token, TextSendMessage(text=text), role, hand_template)
 
-def start_show_hand(reply_token, hand, text, n = 5):
+def show_hand_storyteller(reply_token, hand, text, n = 5):
+    cards = " "
+    for card in hand:
+        cards = cards + " " + str(card)
+    print(cards)
+    hand_json = copy.deepcopy(data.flex_carousel)
+    for i in range(n):
+        image_json = copy.deepcopy(data.image_bubble)  ###NOTE: IMPORTANT: hard copy
+        image_json['action']['text'] = str(i+1)
+        image_json['body']['contents'][0]['url'] = data.img_urls[hand[i]]
+        image_json['body']['contents'][1]['contents'][0]['text'] = str(i+1)
+        hand_json['contents'].append(image_json)
+    hand_template = FlexSendMessage("Show hand", hand_json)
+    role_json = data.storyteller_template
+    role_json['contents'][0]['contents'][1]['contents'][0]['contents'][0]['text'] = data.storyteller_messages[randint(0, len(data.storyteller_messages))]
+    role = FlexSendMessage("Storyteller role", role_json)
+    send_message(reply_token, TextSendMessage(text=text), role, hand_template)
+
+def start_show_hand_storyteller(reply_token, hand, text, n = 5):
     cards = " "
     for card in hand:
         cards = cards + " " + str(card)
@@ -64,7 +87,30 @@ def start_show_hand(reply_token, hand, text, n = 5):
         image_json['body']['contents'][1]['contents'][0]['text'] = str(i+1)
         hand_json['contents'].append(image_json)
     hand_template = FlexSendMessage("Show hand", hand_json)
-    send_message(reply_token, message, TextSendMessage(text=text), hand_template)
+    role_json = data.storyteller_template
+    role_json['contents'][0]['contents'][1]['contents'][0]['contents'][0]['text'] = data.storyteller_messages[randint(0, len(data.storyteller_messages))]
+    role = FlexSendMessage("Storyteller role", role_json)
+    send_message(reply_token, message, TextSendMessage(text=text), role, hand_template)
+
+def start_show_hand_listener(reply_token, hand, text, n = 5):
+    cards = " "
+    for card in hand:
+        cards = cards + " " + str(card)
+    print(cards)
+    message_json = copy.deepcopy(data.game_start)
+    message = FlexSendMessage("Game Start", message_json)
+    hand_json = copy.deepcopy(data.flex_carousel)
+    for i in range(n):
+        image_json = copy.deepcopy(data.image_bubble)  ###NOTE: IMPORTANT: hard copy
+        image_json['action']['text'] = str(i+1)
+        image_json['body']['contents'][0]['url'] = data.img_urls[hand[i]]
+        image_json['body']['contents'][1]['contents'][0]['text'] = str(i+1)
+        hand_json['contents'].append(image_json)
+    hand_template = FlexSendMessage("Show hand", hand_json)
+    role_json = data.listener_template
+    role_json['contents'][0]['contents'][1]['contents'][0]['contents'][0]['text'] = data.listener_messages[randint(0, len(data.listener_messages))]
+    role = FlexSendMessage("Listener role", role_json)
+    send_message(reply_token, message, TextSendMessage(text=text), role, hand_template)
 
 def show_display(reply_token, display, text, n, text1 = None):
     line_bot_api = LineBotApi(channel_access_token)
