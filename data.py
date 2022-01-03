@@ -143,7 +143,7 @@ def init():
         },
         "styles": {
             "footer": {
-                "separator": True
+                "separator": False
             }
         }
         }
