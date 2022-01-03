@@ -2,7 +2,7 @@ import os
 import data
 
 from linebot import LineBotApi, WebhookParser
-from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, ImageCarouselTemplate, ImageCarouselColumn, TemplateSendMessage, MessageAction, QuickReplyButton, QuickReply, ConfirmTemplate, MessageTemplateAction
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, FlexSendMessage, ImageSendMessage, ImageCarouselTemplate, ImageCarouselColumn, TemplateSendMessage, MessageAction, QuickReplyButton, QuickReply, ConfirmTemplate, MessageTemplateAction
 
 channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
 
@@ -38,7 +38,8 @@ def show_hand(reply_token, hand, text, n = 5):
     for card in hand:
         cards = cards + " " + str(card)
     print(cards)
-    hand_template = data.flex_carousel
+    hand_json = data.flex_carousel
+    hand_template = FlexSendMessage("Show hand", hand_json)
     # hand_template = TemplateSendMessage(
     #     alt_text='Buttons Template',
     #     template=ImageCarouselTemplate(
