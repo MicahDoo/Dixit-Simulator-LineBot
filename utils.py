@@ -39,27 +39,13 @@ def show_hand(reply_token, hand, text, n = 5):
     for card in hand:
         cards = cards + " " + str(card)
     print(cards)
-    hand_json = data.flex_carousel
-    # hand_template = TemplateSendMessage(
-    #     alt_text='Buttons Template',
-    #     template=ImageCarouselTemplate(
-    #         columns=[
-    #         ]
-    #     )
-    # )
+    hand_json = copy.deepcopy(data.flex_carousel)
     for i in range(n):
         image_json = copy.deepcopy(data.image_bubble)  ###NOTE: IMPORTANT: hard copy
-        # print(type(image_json['body']['contents']))
-        # print(image_json['body']['contents'])
-        # if 'contents' not in image_json['body']:
-        #     print("contents not in image_json")
-        # else:
-        #     print("contents in image_json")
         image_json['action']['text'] = str(i+1)
         image_json['body']['contents'][0]['url'] = data.img_urls[hand[i]]
         image_json['body']['contents'][1]['contents'][0]['text'] = str(i+1)
         hand_json['contents'].append(image_json)
-        print(hand_json)
     hand_template = FlexSendMessage("Show hand", hand_json)
     send_message(reply_token, TextSendMessage(text=text), hand_template)
 
@@ -69,27 +55,19 @@ def show_display(reply_token, display, text, n, text1 = None):
     for card in display:
         cards = cards + " " + str(card)
     print(cards)
-    hand_template = TemplateSendMessage(
-        alt_text='Buttons Template',
-        template=ImageCarouselTemplate(
-            columns=[
-            ]
-        )
-    )
+    display_json = copy.deepcopy(data.flex_carousel)
     for i in range(n):
-        hand_template.template.columns.append(
-            ImageCarouselColumn(
-                image_url=data.img_urls[display[i]],
-                action=MessageAction(
-                    text=str(i+1)
-                )
-            )
-        )
+        image_json = copy.deepcopy(data.image_bubble)  ###NOTE: IMPORTANT: hard copy
+        image_json['action']['text'] = str(i+1)
+        image_json['body']['contents'][0]['url'] = data.img_urls[display[i]]
+        image_json['body']['contents'][1]['contents'][0]['text'] = str(i+1)
+        display_json['contents'].append(image_json)
+    display_template = FlexSendMessage("Show display", display_json)
     if text1 != None:
-        line_bot_api.reply_message(reply_token, [TextSendMessage(text=text), hand_template, TextSendMessage(
+        line_bot_api.reply_message(reply_token, [TextSendMessage(text=text), display_template, TextSendMessage(
         text=text1, quick_reply=QuickReply(items=[QuickReplyButton(action=MessageAction(label="Continue", text="Next"))]))])
     else:
-        send_message(reply_token, TextSendMessage(text=text), hand_template)
+        send_message(reply_token, TextSendMessage(text=text), display_template)
 
 def send_text_and_image(reply_token, text, image_number, text1=None):
     image_url = data.img_urls[image_number]
