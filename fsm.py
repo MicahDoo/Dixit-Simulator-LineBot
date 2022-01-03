@@ -4,7 +4,7 @@ from transitions.extensions import GraphMachine
 from heapq import heappop, heappush, heapify
 from game import create_game
 
-from utils import send_text_message, show_hand, send_text_and_image, show_display, send_text_and_question
+from utils import send_text_message, show_hand, send_text_and_image, show_display, send_text_and_question, show_game_over
 
 class UserMachine(GraphMachine):
     my_room_number = -1
@@ -205,7 +205,23 @@ class UserMachine(GraphMachine):
         send_text_and_image(event.reply_token, "Answer:", self.my_game.story, tally_text, leaderboard_text)
 
     def on_enter_final_results_shown(self, event):
-        send_text_message(event.reply_token, "Game Over")
+        show_game_over(event.reply_token)
+
+    def not_another_game(self, event):
+        text = event.message.text
+        if text.lower().find("quit") != -1 or text.lower().find("exit") != -1 or text.lower().find("no") != -1 or text.lower().find("leave") != -1 or text.lower().find("bye") != -1:
+            data.clear_game(self.my_room_number)
+            return True
+
+    def host_wants_another_game(self, event):
+        text = event.message.text
+        if self.my_player_id == 0 and text.lower().find("continue") != -1 or text.lower().find("another") != -1 or text.lower().find("yes") != -1 or text.lower().find("resume") != -1 or text.lower().find("again") != -1 or text.lower().find("好") != -1 or text.lower().find("繼續") != -1 or text.lower().find("再") != -1:
+            return True
+
+    def wants_another_game(self, event):
+        text = event.message.text
+        if self.my_player_id != 0 and text.lower().find("continue") != -1 or text.lower().find("another") != -1 or text.lower().find("yes") != -1 or text.lower().find("resume") != -1 or text.lower().find("again") != -1 or text.lower().find("好") != -1 or text.lower().find("繼續") != -1 or text.lower().find("再") != -1:
+            return True
 
     def storyteller_next_round(self, event):
         return self.my_player_id == (self.my_game.storyteller+1)%self.my_game.player_count

@@ -4,7 +4,7 @@ def create_user_fsm():
     machine = UserMachine(
         states=['user', 'room_created', 'create_password', 'enter_password', 'waiting_for_players', 'in_room', 'hosting_game', 
         'in_game', 'card_played', 'cards_displayed', 'guess_made', 'scores_tallied', 'card_dealt', 'story_told', 
-        'all_cards_played', 'storyteller_results_shown', 'storyteller_card_dealt', 'final_results_shown'],
+        'all_cards_played', 'storyteller_results_shown', 'storyteller_card_dealt'],
         transitions=[
             {'trigger': 'advance', 'source': ['room_created', 'waiting_for_players', 'in_room', 'hosting_game', 
         'in_game', 'card_played', 'cards_displayed', 'guess_made', 'scores_tallied', 'card_dealt', 'story_told', 
@@ -32,7 +32,9 @@ def create_user_fsm():
             {'trigger': 'advance', 'source': 'story_told', 'dest': 'all_cards_played', 'conditions': 'everyone_played_a_card'},
             {'trigger': 'advance', 'source': 'all_cards_played', 'dest': 'storyteller_results_shown', 'conditions': 'everyone_made_a_guess'},
             {'trigger': 'advance', 'source': 'storyteller_results_shown', 'dest': 'final_results_shown', 'conditions': 'end_of_the_game'},
-            {'trigger': 'advance', 'source': 'final_results_shown', 'dest': 'user', 'conditions': 'wants_next_round'},
+            {'trigger': 'advance', 'source': 'final_results_shown', 'dest': 'user', 'conditions': 'not_another_game'},
+            {'trigger': 'advance', 'source': 'final_results_shown', 'dest': 'hosting_game', 'conditions': 'host_wants_another_game'},
+            {'trigger': 'advance', 'source': 'final_results_shown', 'dest': 'in_game', 'conditions': 'wants_another_game'},
             ###
             {'trigger': 'advance', 'source': 'storyteller_results_shown', 'dest': 'storyteller_card_dealt', 'conditions': 'anything'},
             # {'trigger': 'advance', 'source': 'storyteller_results_shown', 'dest': 'card_dealt', 'conditions': 'anything'},
