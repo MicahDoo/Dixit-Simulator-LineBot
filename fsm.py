@@ -6,17 +6,6 @@ from game import create_game
 
 from utils import send_text_message, show_hand, send_text_and_image, show_display, send_text_and_question
 
-
-class GameMachine(GraphMachine):
-
-    def __init__(self, **machine_configs):
-        self.machine = GraphMachine(model=self, **machine_configs)
-
-    def is_going_to_start_game():
-        pass
-    
-
-
 class UserMachine(GraphMachine):
     my_room_number = -1
     my_player_id = 0
@@ -156,7 +145,7 @@ class UserMachine(GraphMachine):
     def guesses_a_card(self,event):
         text = event.message.text
         if text.isnumeric() and 0 < int(text) <= self.my_game.player_count:
-            send_text_and_image(event.reply_token, "You guessed that image " + text + " was what the story is about: ", self.my_game.display[int(text)-1])
+            send_text_and_image(event.reply_token, "Your guess:", self.my_game.display[int(text)-1], "Continue after the storyteller confirms everyone makes a guess.")
             self.my_game.log_guess(self.my_player_id, int(text)-1)
         return text.isnumeric() and 0 < int(text) <= self.my_game.player_count
 

@@ -18,9 +18,8 @@ class Game():
         self.collected = False
 
     def start_game(self):
+        print("Start game")
         shuffle(self.deck)
-        # for card in self.deck:
-        #     print(card)
         self.hands = [[-1]*5 for _ in range(self.player_count)]
         self.display = [-1]*self.player_count
         self.guesses = [-1]*self.player_count
@@ -30,9 +29,6 @@ class Game():
                 print("~", self.deck[0])
                 self.hands[i][j] = self.deck[0]
                 self.deck.pop(0)
-        # print(self.hands)
-        # for card in self.deck:
-        #     print(card)
         self.game_started = True
 
     def shuffle_deck(self):
