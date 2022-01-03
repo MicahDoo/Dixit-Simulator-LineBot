@@ -49,6 +49,23 @@ def show_hand(reply_token, hand, text, n = 5):
     hand_template = FlexSendMessage("Show hand", hand_json)
     send_message(reply_token, TextSendMessage(text=text), hand_template)
 
+def start_show_hand(reply_token, hand, text, n = 5):
+    cards = " "
+    for card in hand:
+        cards = cards + " " + str(card)
+    print(cards)
+    message_json = copy.deepcopy(data.game_start)
+    message = FlexSendMessage("Game Start", message_json)
+    hand_json = copy.deepcopy(data.flex_carousel)
+    for i in range(n):
+        image_json = copy.deepcopy(data.image_bubble)  ###NOTE: IMPORTANT: hard copy
+        image_json['action']['text'] = str(i+1)
+        image_json['body']['contents'][0]['url'] = data.img_urls[hand[i]]
+        image_json['body']['contents'][1]['contents'][0]['text'] = str(i+1)
+        hand_json['contents'].append(image_json)
+    hand_template = FlexSendMessage("Show hand", hand_json)
+    send_message(reply_token, message, TextSendMessage(text=text), hand_template)
+
 def show_display(reply_token, display, text, n, text1 = None):
     line_bot_api = LineBotApi(channel_access_token)
     cards = " "

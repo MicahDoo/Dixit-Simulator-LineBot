@@ -147,6 +147,35 @@ def init():
             }
         }
         }
+
+    global game_start
+    game_start = {
+        "type": "bubble",
+        "size": "giga",
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": "🎊 Game started! 🎊",
+                    "weight": "bold",
+                    "size": "xxl",
+                    "margin": "xl",
+                    "align": "center"
+                },
+                {
+                    "type": "text",
+                    "text": "First to get 30 points wins!\nDo your best!",
+                    "size": "md",
+                    "wrap": True,
+                    "margin": "lg",
+                    "align": "center"
+                }
+            ],
+            "background_color": "#BFACAA"
+        },
+        }
        
 
 

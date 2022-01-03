@@ -36,8 +36,8 @@ def create_user_fsm():
             {'trigger': 'advance', 'source': 'final_results_shown', 'dest': 'hosting_game', 'conditions': 'host_wants_another_game'},
             {'trigger': 'advance', 'source': 'final_results_shown', 'dest': 'in_game', 'conditions': 'wants_another_game'},
             ###
-            {'trigger': 'advance', 'source': 'storyteller_results_shown', 'dest': 'storyteller_card_dealt', 'conditions': 'anything'},
-            # {'trigger': 'advance', 'source': 'storyteller_results_shown', 'dest': 'card_dealt', 'conditions': 'anything'},
+            # {'trigger': 'advance', 'source': 'storyteller_results_shown', 'dest': 'storyteller_card_dealt', 'conditions': 'anything'},
+            {'trigger': 'advance', 'source': 'storyteller_results_shown', 'dest': 'card_dealt', 'conditions': 'anything'},
             ###
             {'trigger': 'advance', 'source': 'card_dealt', 'dest': 'card_played', 'conditions': 'plays_a_card'},
             {'trigger': 'advance', 'source': 'storyteller_card_dealt', 'dest': 'story_told', 'conditions': 'plays_a_card_as_story'},

@@ -4,7 +4,7 @@ from transitions.extensions import GraphMachine
 from heapq import heappop, heappush, heapify
 from game import create_game
 
-from utils import send_text_message, show_hand, send_text_and_image, show_display, send_text_and_question, show_game_over
+from utils import send_text_message, show_hand, start_show_hand, send_text_and_image, show_display, send_text_and_question, show_game_over
 
 class UserMachine(GraphMachine):
     my_room_number = -1
@@ -133,7 +133,7 @@ class UserMachine(GraphMachine):
         hand = self.my_game.get_hand(self.my_player_id)
 
         reply_token = event.reply_token
-        show_hand(reply_token, hand, 'You are the storyteller.\nPick an image.\nTell a story.')
+        start_show_hand(reply_token, hand, 'You are the storyteller.\nPick an image.\nTell a story.')
 
     def plays_a_card(self, event):
         text = event.message.text
@@ -179,7 +179,7 @@ class UserMachine(GraphMachine):
 
     def end_of_the_game(self, event):
         print("max(self.my_game.scores) ==", max(self.my_game.scores))
-        return max(self.my_game.scores) >= 5
+        return max(self.my_game.scores) >= 30
 
     def everyone_made_a_guess(self, event):
         return self.my_game.guesses.count(-1) == 1
@@ -272,7 +272,7 @@ class UserMachine(GraphMachine):
 
     def on_enter_in_game(self, event):
         print("In game")
-        show_hand(event.reply_token, self.my_game.hands[self.my_player_id], "Listen to the storyteller and play a card to confuse your opponents.")
+        start_show_hand(event.reply_token, self.my_game.hands[self.my_player_id], "Listen to the storyteller and play a card to confuse your opponents.")
 
 
     def game_finished(self, event):
