@@ -50,6 +50,7 @@ def show_hand(reply_token, hand, text, n = 5):
         image = data.image_bubble
         image.body.contents[0].url = data.img_urls[hand[i]]
         image.body.contents[1].contents[0].text = str(i+1)
+        image.action = MessageAction(text=str(i+1))
         hand_template.template.columns.append(
             image
             # ImageCarouselColumn(

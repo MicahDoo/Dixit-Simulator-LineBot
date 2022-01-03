@@ -158,7 +158,7 @@ class Game():
     def is_game_alive(self):
         return self.game_started
 
-    def comeplete_room_creation(self):
+    def complete_room_creation(self):
         self.create_complete = True
 
     def room_joinable(self):
