@@ -77,11 +77,11 @@ def init():
             ],
             "paddingAll": "0px"
         },
-        "action": {
-            "type": "message",
-            "label": "action",
-            "text": "1"
-        }
+        # "action": {
+        #     "type": "message",
+        #     "label": "action",
+        #     "text": "1"
+        # }
         }
 
     global game_over
@@ -109,7 +109,7 @@ def init():
                     "align": "center"
                 }
             ],
-            "color": "#BFACAA"
+            "background_color": "#BFACAA"
         },
         "footer": {
             "type": "box",
@@ -118,6 +118,7 @@ def init():
                 {
                     "type": "button",
                     "style": "primary",
+                    "height": "md",
                     "action": {
                         "type": "message",
                         "label": "Yes, please",
@@ -128,6 +129,7 @@ def init():
                 {
                     "type": "button",
                     "style": "primary",
+                    "height": "md",
                     "action": {
                         "type": "message",
                         "label": "Nope, too much fun",

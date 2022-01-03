@@ -42,7 +42,7 @@ def show_hand(reply_token, hand, text, n = 5):
     hand_json = copy.deepcopy(data.flex_carousel)
     for i in range(n):
         image_json = copy.deepcopy(data.image_bubble)  ###NOTE: IMPORTANT: hard copy
-        image_json['action']['text'] = str(i+1)
+        # image_json['action']['text'] = str(i+1)
         image_json['body']['contents'][0]['url'] = data.img_urls[hand[i]]
         image_json['body']['contents'][1]['contents'][0]['text'] = str(i+1)
         hand_json['contents'].append(image_json)
