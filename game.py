@@ -12,10 +12,6 @@ import data
 class Game():
     def __init__(self):
         self.player_count = 0
-        self.guesses_recorded = False
-        self.story = -1
-        self.answer = -1
-        self.collected = False
 
     def start_game(self):
         print("Start game")
@@ -30,6 +26,12 @@ class Game():
                 self.hands[i][j] = self.deck[0]
                 self.deck.pop(0)
         self.game_started = True
+        self.guesses_recorded = False
+        self.story = -1
+        self.answer = -1
+        self.collected = False
+        self.tally_text = ""
+        self.ranking_text = ""
 
     def shuffle_deck(self):
         shuffle(self.deck)

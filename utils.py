@@ -69,6 +69,11 @@ def show_display(reply_token, display, text, n, text1 = None):
     else:
         send_message(reply_token, TextSendMessage(text=text), display_template)
 
+def show_game_over(reply_token):
+    send_message(reply_token, TextSendMessage(text="Game Over."), TextSendMessage(
+        text="Do you want to play again?", quick_reply=[QuickReply(items=[QuickReplyButton(action=MessageAction(label="Play again", text="Again"))]), QuickReply(items=[QuickReplyButton(action=MessageAction(label="Quit", text="Quit"))])]))
+
+
 def send_text_and_image(reply_token, text, image_number, text1 = None, text2 = None):
     print("Send text and image")
     image_url = data.img_urls[image_number]
