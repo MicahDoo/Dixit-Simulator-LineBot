@@ -201,16 +201,18 @@ class UserMachine(GraphMachine):
         return self.my_game.guesses_recorded
 
     def on_enter_storyteller_results_shown(self, event):
-        print("printing results?")
         self.my_game.guesses_recorded = True
         tally_text = self.my_game.tally()
         leaderboard_text = self.my_game.show_ranking()
+        print("tally_text = ", tally_text)
+        print("leaderboard_text = ", leaderboard_text)
         send_text_and_image(event.reply_token, "Answer: " + str(self.my_game.answer), self.my_game.story, tally_text, leaderboard_text)
 
     def on_enter_scores_tallied(self, event):
-        print("printing results?")
         tally_text = self.my_game.tally()
         leaderboard_text = self.my_game.show_ranking()
+        print("tally_text = ", tally_text)
+        print("leaderboard_text = ", leaderboard_text)
         send_text_and_image(event.reply_token, "Answer: " + str(self.my_game.answer), self.my_game.story, tally_text, leaderboard_text)
 
     def on_enter_final_results_shown(self, event):
