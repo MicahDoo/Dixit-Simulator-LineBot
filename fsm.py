@@ -39,7 +39,7 @@ class UserMachine(GraphMachine):
     def is_going_to_room_created(self, event):
         text = event.message.text
 
-        return text.lower().find("game") != -1
+        return text.lower().find("create") != -1 or text.lower().find("game") != -1 or text.lower().find("room") != -1
 
     def on_enter_room_created(self, event):
         print("I'm entering room_created")

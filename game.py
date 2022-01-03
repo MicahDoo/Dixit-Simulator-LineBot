@@ -133,6 +133,7 @@ class Game():
                 break
 
     def game_is_ready(self):
+        self.create_complete = False
         return True
 
     def get_hand(self, player_id):
