@@ -60,7 +60,7 @@ class Game():
         self.ranking_text = ""
 
     def tally(self):
-        if self.tally_text != "This round:":
+        if self.tally_text != ""
             return self.tally_text
         hit_count = 0
         miss_count = 0
@@ -99,13 +99,13 @@ class Game():
                     self.scores[i] += 3
                 if i != self.player_count - 1:
                     this_round_text +="\n"
-        self.tally_text = hit_text + "\n" + miss_text + "\n" + this_round_text
+        self.tally_text = "This round: \n" + hit_text + "\n" + miss_text + "\n" + this_round_text
         return self.tally_text
 
     def show_ranking(self):
-        if self.ranking_text != "Leaderboard:\n":
+        if self.ranking_text != "":
             return self.ranking_text
-        text = ""
+        text = "Leaderboard:\n"
         for i in range(self.player_count):
             text += "player" + str(i) + ": " + str(self.scores[i])
             if i != self.player_count - 1:
