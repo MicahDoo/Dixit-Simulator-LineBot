@@ -119,7 +119,7 @@ class Game():
         hand.pop(card_order)
         hand.insert(0, self.deck[0])
         self.deck.pop(0)
-        self.deck.insert(card_num, randint(0, len(self.deck)))
+        self.deck.insert(card_num, randint(0, len(self.deck)-1))
 
     def replace_all_cards(self):
         for i in range(len(self.display)):
