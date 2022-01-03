@@ -47,12 +47,11 @@ def init():
             "contents": [
             {
                 "type": "image",
-                "url": "https://i.imgur.com/4Kny0jj.jpg",
+                "url": "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip2.jpg",
                 "size": "full",
                 "aspectMode": "cover",
                 "aspectRatio": "2:3",
-                "gravity": "center",
-                "align": "center"
+                "gravity": "top"
             },
             {
                 "type": "box",
@@ -78,13 +77,13 @@ def init():
             ],
             "paddingAll": "0px"
         },
-        "styles": {
-            "footer": {
-            "separator": "false"
-            }
+        "action": {
+            "type": "message",
+            "label": "action",
+            "text": "1"
         }
         }
-
+       
 
 
 
