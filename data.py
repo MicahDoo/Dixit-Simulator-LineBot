@@ -114,11 +114,12 @@ def init():
         "footer": {
             "type": "box",
             "layout": "vertical",
+            "background_color": "#BFACAA",
             "contents": [
                 {
                     "type": "button",
                     "style": "primary",
-                    "height": "md",
+                    # "height": "md",
                     "action": {
                         "type": "message",
                         "label": "Yes, please",
@@ -129,7 +130,7 @@ def init():
                 {
                     "type": "button",
                     "style": "primary",
-                    "height": "md",
+                    # "height": "md",
                     "action": {
                         "type": "message",
                         "label": "Nope, too much fun",
@@ -137,7 +138,8 @@ def init():
                     },
                     "color": "#3B5249"
                 }
-            ]
+            ],
+            "spacing": "lg"
         },
         "styles": {
             "footer": {
