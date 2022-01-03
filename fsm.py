@@ -180,7 +180,7 @@ class UserMachine(GraphMachine):
     def on_enter_all_cards_played(self, event):
         self.my_game.collected = True
         self.my_game.replace_all_cards()
-        show_display(event.reply_token, self.my_game.display, "These are your story and all the other distractions:", self.my_game.player_count, "Continue when all playes have placed their bets")
+        show_display(event.reply_token, self.my_game.display, "These are your story and all the other distractions:", self.my_game.player_count, "Continue when all players have placed their bets.")
 
     def storyteller_collected_the_cards(self, event):
         return self.my_game.collected

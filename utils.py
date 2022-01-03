@@ -70,6 +70,7 @@ def show_display(reply_token, display, text, n, text1 = None):
         send_message(reply_token, TextSendMessage(text=text), display_template)
 
 def send_text_and_image(reply_token, text, image_number, text1=None, text2=None):
+    print("Send text and image")
     image_url = data.img_urls[image_number]
     if text2 != None:
         send_message(reply_token, TextSendMessage(text=text), ImageSendMessage(original_content_url = image_url, preview_image_url = image_url), TextSendMessage(text=tex1), TextSendMessage(
