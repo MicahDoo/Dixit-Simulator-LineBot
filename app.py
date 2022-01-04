@@ -79,9 +79,12 @@ def webhook_handler():
     # if event is MessageEvent and message is TextMessage, then do something
     for event in events:
         if isinstance(event, FollowEvent):
-            if event.source.user_id in data.user_FSMs:
+            if event.source.user_id in data.user_FSMs: # user registered
+                if data.user_FSMs[event.source.user_id].my_room_number != -1: # user was in a room
+                    data.clear_game(data.user_FSMs[event.source.user_id].my_room_number)
                 data.user_FSMs[event.source.user_id].go_back()
-            send_text_message(event.reply_token, "Welcome back!")
+                send_text_message(event.reply_token, "Welcome back!")
+
         if not isinstance(event, MessageEvent):
             continue
         if not isinstance(event.message, TextMessage):

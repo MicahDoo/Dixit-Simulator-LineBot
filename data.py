@@ -38,14 +38,15 @@ def init():
     storyteller_messages += ['Victory lies in subtlety.']
     storyteller_messages += ['What you say might not be what they hear.']
     storyteller_messages += ['Give them something to scratch their heads about.']
+    storyteller_messages += ['Amuse and bemuse.']
 
     global listener_messages   
-    listener_messages = ['Listen and bemuse.']
-    listener_messages = ['The power is on your to confuse.']
-    listener_messages = ['I\'ve heared.. I\'ve seen that story before...']
-    listener_messages = ['They have the words... but you have the pictures.']
-    listener_messages = ['What you hear might not be what you see.']
-    listener_messages = ['Befuzzle them, as they will rightly you.']
+    listener_messages = ['Behold, bewitch and bewilder.']
+    listener_messages += ['The power is on you to confuse.']
+    listener_messages += ['I\'ve heard.. I\'ve seen that story before...']
+    listener_messages += ['They have the words and pictures... but you have the frames.']
+    listener_messages += ['What you hear might not be what you see.']
+    listener_messages += ['Befuzzle them, as they will rightly you.']
 
     global storyteller_template
     storyteller_template = {
@@ -393,9 +394,10 @@ def init():
 
 
 def clear_game(room_id):
-    for player in games[room_id].users.values():
-        print("Taking user " + player + " out of the game...")
-        user_FSMs[player].leave_game()
+    if (games[room_id] != None):
+        for player in games[room_id].users.values():
+            print("Taking user " + player + " out of the game...")
+            user_FSMs[player].leave_game()
 
     games.pop(room_id)
     heappush(unused_room_numbers, room_id)
