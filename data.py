@@ -15,19 +15,14 @@ def init():
     global games
     games = {} #[key:room_id, value: Game() object, which includes an fsm and more]
 
+    # img_urls += ['', '', '', '', '', '', '', '', '']
     global img_urls
     img_urls = ['https://i.imgur.com/NiAtMOX.jpg', 'https://i.imgur.com/hOCXaPW.jpg', 'https://i.imgur.com/pefZDtk.jpg', 'https://i.imgur.com/7uQUsaN.jpg', 'https://i.imgur.com/LHuK64T.jpg', 'https://i.imgur.com/oknK6UU.jpg', 'https://i.imgur.com/SzvJK2d.jpg', 'https://i.imgur.com/vwyafa2.jpg', 'https://i.imgur.com/5pEkAjR.jpg']
-    img_urls += ['https://i.imgur.com/KVtJNwh.jpg', 'https://i.imgur.com/IEAEYct.jpg', 'https://i.imgur.com/ukEN5QE.jpg', 'https://i.imgur.com/vFarBiM.jpg', 'https://i.imgur.com/3hV1TnW.jpg', 'https://i.imgur.com/mQU5EOs.jpg', 'https://i.imgur.com/w8It5aZ.jpg', 'https://i.imgur.com/lKhYFrb.jpg', 'https://i.imgur.com/Pk36ixw.jpg']
-    img_urls += ['https://i.imgur.com/KuE5Qbf.jpg', 'https://i.imgur.com/U4gpBKh.jpg', 'https://i.imgur.com/n3w333y.jpg', 'https://i.imgur.com/ccfLedo.jpg', 'https://i.imgur.com/3SfnxbY.jpg', 'https://i.imgur.com/hvpX9Zq.jpg', 'https://i.imgur.com/laWkwvX.jpg', 'https://i.imgur.com/0AsS5Mb.jpg', 'https://i.imgur.com/qvtb9ze.jpg']
-    img_urls += ['https://i.imgur.com/VdJI90y.jpeg', 'https://i.imgur.com/QlFu6Ff.jpg', 'https://i.imgur.com/NljlPbD.jpg', 'https://i.imgur.com/sNpg7YI.jpg', 'https://i.imgur.com/VEwp7KE.jpg', 'https://i.imgur.com/PI9HnKD.jpg', 'https://i.imgur.com/rjcFxHb.jpg', 'https://i.imgur.com/wxD0mIw.jpg', 'https://i.imgur.com/OMlktVf.jpg']
-    img_urls += ['https://i.imgur.com/KVtJNwh.jpg', 'https://i.imgur.com/IEAEYct.jpg', 'https://i.imgur.com/ukEN5QE.jpg', 'https://i.imgur.com/vFarBiM.jpg', 'https://i.imgur.com/3hV1TnW.jpg', 'https://i.imgur.com/mQU5EOs.jpg', 'https://i.imgur.com/w8It5aZ.jpg', 'https://i.imgur.com/lKhYFrb.jpg', 'https://i.imgur.com/Pk36ixw.jpg']
-    img_urls += ['https://i.imgur.com/KuE5Qbf.jpg', 'https://i.imgur.com/U4gpBKh.jpg', 'https://i.imgur.com/n3w333y.jpg', 'https://i.imgur.com/ccfLedo.jpg', 'https://i.imgur.com/3SfnxbY.jpg', 'https://i.imgur.com/hvpX9Zq.jpg', 'https://i.imgur.com/laWkwvX.jpg', 'https://i.imgur.com/0AsS5Mb.jpg', 'https://i.imgur.com/qvtb9ze.jpg']
-    img_urls += ['https://i.imgur.com/VdJI90y.jpeg', 'https://i.imgur.com/QlFu6Ff.jpg', 'https://i.imgur.com/NljlPbD.jpg', 'https://i.imgur.com/sNpg7YI.jpg', 'https://i.imgur.com/VEwp7KE.jpg', 'https://i.imgur.com/PI9HnKD.jpg', 'https://i.imgur.com/rjcFxHb.jpg', 'https://i.imgur.com/wxD0mIw.jpg', 'https://i.imgur.com/OMlktVf.jpg']
-    img_urls += ['https://i.imgur.com/KVtJNwh.jpg', 'https://i.imgur.com/IEAEYct.jpg', 'https://i.imgur.com/ukEN5QE.jpg', 'https://i.imgur.com/vFarBiM.jpg', 'https://i.imgur.com/3hV1TnW.jpg', 'https://i.imgur.com/mQU5EOs.jpg', 'https://i.imgur.com/w8It5aZ.jpg', 'https://i.imgur.com/lKhYFrb.jpg', 'https://i.imgur.com/Pk36ixw.jpg']
-    img_urls += ['https://i.imgur.com/KuE5Qbf.jpg', 'https://i.imgur.com/U4gpBKh.jpg', 'https://i.imgur.com/n3w333y.jpg', 'https://i.imgur.com/ccfLedo.jpg', 'https://i.imgur.com/3SfnxbY.jpg', 'https://i.imgur.com/hvpX9Zq.jpg', 'https://i.imgur.com/laWkwvX.jpg', 'https://i.imgur.com/0AsS5Mb.jpg', 'https://i.imgur.com/qvtb9ze.jpg']
-    img_urls += ['https://i.imgur.com/VdJI90y.jpeg', 'https://i.imgur.com/QlFu6Ff.jpg', 'https://i.imgur.com/NljlPbD.jpg', 'https://i.imgur.com/sNpg7YI.jpg', 'https://i.imgur.com/VEwp7KE.jpg', 'https://i.imgur.com/PI9HnKD.jpg', 'https://i.imgur.com/rjcFxHb.jpg', 'https://i.imgur.com/wxD0mIw.jpg', 'https://i.imgur.com/OMlktVf.jpg']
-    img_urls += ['https://i.imgur.com/KVtJNwh.jpg', 'https://i.imgur.com/IEAEYct.jpg', 'https://i.imgur.com/ukEN5QE.jpg', 'https://i.imgur.com/vFarBiM.jpg', 'https://i.imgur.com/3hV1TnW.jpg', 'https://i.imgur.com/mQU5EOs.jpg', 'https://i.imgur.com/w8It5aZ.jpg', 'https://i.imgur.com/lKhYFrb.jpg', 'https://i.imgur.com/Pk36ixw.jpg']
-    img_urls += ['https://i.imgur.com/KuE5Qbf.jpg', 'https://i.imgur.com/U4gpBKh.jpg', 'https://i.imgur.com/n3w333y.jpg', 'https://i.imgur.com/ccfLedo.jpg', 'https://i.imgur.com/3SfnxbY.jpg', 'https://i.imgur.com/hvpX9Zq.jpg', 'https://i.imgur.com/laWkwvX.jpg', 'https://i.imgur.com/0AsS5Mb.jpg', 'https://i.imgur.com/qvtb9ze.jpg']
+    img_urls += ['https://i.imgur.com/ziLZMgz.jpg', 'https://i.imgur.com/cBIVaub.jpg', 'https://i.imgur.com/VLRwtEc.jpg', 'https://i.imgur.com/D1lG334.jpg', 'https://i.imgur.com/ZGsLHuh.jpg', 'https://i.imgur.com/7jLXNRa.jpg', 'https://i.imgur.com/lpg9RMP.jpg', 'https://i.imgur.com/rScCgZy.jpg', 'https://i.imgur.com/3x6ctJ4.jpg']
+    img_urls += ['https://i.imgur.com/KWd5gjM.jpg', 'https://i.imgur.com/jQBBuAr.jpg', 'https://i.imgur.com/owZiPdS.jpg', 'https://i.imgur.com/j9e7H6F.jpg', 'https://i.imgur.com/zEfnIYt.jpg', 'https://i.imgur.com/s1nIFFu.jpg', 'https://i.imgur.com/k5iVZYE.jpg', 'https://i.imgur.com/ptTOxTP.jpg', 'https://i.imgur.com/ouQSrdD.jpg']
+    img_urls += ['https://i.imgur.com/H55tWhA.jpg', 'https://i.imgur.com/iAZkPFV.jpg', 'https://i.imgur.com/OPxNNr7.jpg', 'https://i.imgur.com/hloh2MD.jpg', 'https://i.imgur.com/Yh4yrcj.jpg', 'https://i.imgur.com/qrSCTO7.jpg', 'https://i.imgur.com/vIWQLQE.jpg', 'https://i.imgur.com/8DDWYNj.jpg', 'https://i.imgur.com/pNKPJq7.jpg']
+    img_urls += ['https://i.imgur.com/nhaADgj.jpg', 'https://i.imgur.com/GOAkCES.jpg', 'https://i.imgur.com/X6DKyxp.jpg', 'https://i.imgur.com/bczxeSe.jpg', 'https://i.imgur.com/BoCdtA8.jpg', 'https://i.imgur.com/fUDNQfM.jpg', 'https://i.imgur.com/E9EIHJg.jpg', 'https://i.imgur.com/GxYoTEJ.jpg', 'https://i.imgur.com/QLySAxJ.jpg']
+
 
     global storyteller_messages
     storyteller_messages = ['Enchant them with your tale.']
@@ -188,7 +183,7 @@ def init():
                         "contents": [
                         {
                             "type": "text",
-                            "text": "Pick an image. \nConfuse the other audience.",
+                            "text": "Pick an image. \nConfuse the other players.",
                             "color": "#ebebeb",
                             "size": "sm",
                             "flex": 0,

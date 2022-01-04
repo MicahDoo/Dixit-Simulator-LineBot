@@ -168,7 +168,7 @@ class Game():
     player_count = int()
     collected = False
     guesses_recorded = False
-    deck = list(range(0, 100))
+    deck = list(range(len(data.img_urls)))
     hands = list() # Do I organize them in (x) user_id or just (v) player_number?
     guesses = list()
     display = list()
