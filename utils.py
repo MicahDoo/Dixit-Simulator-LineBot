@@ -145,7 +145,7 @@ def show_game_ended(reply_token, text, user_id):
 
     line_bot_api = LineBotApi(channel_access_token)
     try:
-        profile = line_bot_api.get_profile(user_id)
+        profile = line_bot_api.get_profile(user_id).display_name
     except LineBotApiError as e:
         profile = "beautiful person"
     text1 = "Hello, " + profile + "\nType \"Create\" to start a new room.\nType\"Join [Room Number]\" to join an existing room"
