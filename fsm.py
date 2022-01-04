@@ -281,16 +281,16 @@ class UserMachine(GraphMachine):
         text = event.message.text
         if text.lower().find("quit") != -1: # only room owner or if you haven't joined any game yet can quit
             if not self.in_game:
-                show_game_over(event.reply_token)
+                send_text_message(event.reply_token, "Game ended.")
                 return True
             if self.my_player_id == 0:
                 # self.in_game = False
                 data.clear_game(self.my_room_number)
-                show_game_over(event.reply_token)
+                send_text_message(event.reply_token, "Game ended.")
                 return True
         elif not self.in_game and self.disconnected:
             self.disconnected = False
-            show_game_over(event.reply_token)
+            send_text_message(event.reply_token, "Game ended.")
             return True
         return False
 
