@@ -66,10 +66,14 @@ class UserMachine(GraphMachine):
                 print("Game exists")
                 self.my_room_number = room_number
                 self.my_game = data.games[room_number]
-                if self.my_game.room_joinable() and not self.my_game.password_protected:
-                    return True
+                if self.my_game.room_joinable(): 
+                    if not self.my_game.password_protected:
+                        return True
+                    else:
+                        return False
                 else:
-                     return False
+                    send_text_message(event.reply_token, "Room doesn\'t exist or the owner is in the process of setting up a password.")
+                    return False
             else:
                 return False
         else:
