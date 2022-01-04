@@ -213,6 +213,7 @@ class UserMachine(GraphMachine):
         text = event.message.text
         if text.lower().find("quit") != -1 or text.lower().find("exit") != -1 or text.lower().find("no") != -1 or text.lower().find("leave") != -1 or text.lower().find("bye") != -1:
             data.clear_game(self.my_room_number)
+            show_game_ended(event.reply_token, "Hope you had fun and see you next time!", event.source.user_id)
             return True
 
     def host_wants_another_game(self, event):
@@ -281,16 +282,16 @@ class UserMachine(GraphMachine):
         text = event.message.text
         if text.lower().find("quit") != -1: # only room owner or if you haven't joined any game yet can quit
             if not self.in_game:
-                show_game_ended(event.reply_token)
+                show_game_ended(event.reply_token, "It seems like the game was stopped short.\nHope to see you again.", event.source.user_id)
                 return True
             if self.my_player_id == 0:
                 # self.in_game = False
                 data.clear_game(self.my_room_number)
-                show_game_ended(event.reply_token)
+                show_game_ended(event.reply_token, "You closed the room.\nSee you next time.", event.source.user_id)
                 return True
         elif not self.in_game and self.disconnected:
             self.disconnected = False
-            show_game_ended(event.reply_token)
+            show_game_ended(event.reply_token, "The game ended before even starting.\nStart for real this time?", event.source.user_id)
             return True
         return False
 

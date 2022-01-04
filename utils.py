@@ -3,6 +3,7 @@ import data
 import copy
 
 from linebot import LineBotApi, WebhookParser
+from linebot.exceptions import LineBotApiError
 from linebot.models import MessageEvent, TextMessage, BubbleContainer, TextSendMessage, FlexContainer, FlexSendMessage, ImageSendMessage, ImageCarouselTemplate, ImageCarouselColumn, TemplateSendMessage, MessageAction, QuickReplyButton, QuickReply, ConfirmTemplate, MessageTemplateAction
 
 from random import randint
@@ -137,10 +138,19 @@ def show_game_over(reply_token):
     message = FlexSendMessage("Game over", message_json)
     send_message(reply_token, message)
 
-def show_game_ended(reply_token):
+def show_game_ended(reply_token, text, user_id):
     message_json = data.game_ended
+    message_json['body']['contents'][1]['text'] = text
     message = FlexSendMessage("Game over", message_json)
-    send_message(reply_token, message)
+
+    line_bot_api = LineBotApi(channel_access_token)
+    try:
+        profile = line_bot_api.get_profile('<user_id>')
+    except LineBotApiError as e:
+        profile = "Beautiful person"
+    text1 = "Hello, " + profile + "\nType \"Create\" to start a new room.\nType\"Join [Room Number]\" to join an existing room"
+    
+    send_message(reply_token, message, TextSendMessage(text=text))
 
 
 def send_text_and_image(reply_token, text, image_number, text1 = None, text2 = None):

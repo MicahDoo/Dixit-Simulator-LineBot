@@ -14,6 +14,9 @@ from utils import send_text_message
 
 from machines import create_user_fsm
 
+# TODO: 根據使用者偏好語言切換語言
+# TODO: 查使用者的名字
+
 load_dotenv()
 
 app = Flask(__name__, static_url_path="")
@@ -30,9 +33,6 @@ if channel_access_token is None:
 
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
-
-#Global:
-#img_url[]
 
 data.init()
 
