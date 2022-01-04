@@ -6,7 +6,7 @@ from game import create_game
 
 from random import randint
 
-from utils import send_text_message, start_show_hand_listener, start_show_hand_storyteller, show_hand_listener, show_hand_storyteller, send_text_and_image, show_display, send_text_and_question, show_game_over
+from utils import send_text_message, show_game_ended, start_show_hand_listener, start_show_hand_storyteller, show_hand_listener, show_hand_storyteller, send_text_and_image, show_display, send_text_and_question, show_game_over
 
 class UserMachine(GraphMachine):
     my_room_number = -1
@@ -281,16 +281,16 @@ class UserMachine(GraphMachine):
         text = event.message.text
         if text.lower().find("quit") != -1: # only room owner or if you haven't joined any game yet can quit
             if not self.in_game:
-                send_text_message(event.reply_token, "Game ended.")
+                show_game_ended(event.reply_token)
                 return True
             if self.my_player_id == 0:
                 # self.in_game = False
                 data.clear_game(self.my_room_number)
-                send_text_message(event.reply_token, "Game ended.")
+                show_game_ended(event.reply_token)
                 return True
         elif not self.in_game and self.disconnected:
             self.disconnected = False
-            send_text_message(event.reply_token, "Game ended.")
+            show_game_ended(event.reply_token)
             return True
         return False
 

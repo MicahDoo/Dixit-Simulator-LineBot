@@ -389,12 +389,41 @@ def init():
             "background_color": "#BFACAA"
         },
         }
+
+    global game_ended
+    game_ended = {
+        "type": "bubble",
+        "size": "giga",
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": "😢 Game ended... 😢",
+                    "weight": "bold",
+                    "size": "xxl",
+                    "margin": "xl",
+                    "align": "center"
+                },
+                {
+                    "type": "text",
+                    "text": "It seems like the game was stopped short.\nHope to see you again.",
+                    "size": "md",
+                    "wrap": True,
+                    "margin": "lg",
+                    "align": "center"
+                }
+            ],
+            "background_color": "#BFACAA"
+        },
+        }
        
 
 
 
 def clear_game(room_id):
-    if (games[room_id] != None):
+    if room_id in games:
         for player in games[room_id].users.values():
             print("Taking user " + player + " out of the game...")
             user_FSMs[player].leave_game()

@@ -137,6 +137,11 @@ def show_game_over(reply_token):
     message = FlexSendMessage("Game over", message_json)
     send_message(reply_token, message)
 
+def show_game_ended(reply_token):
+    message_json = data.game_ended
+    message = FlexSendMessage("Game over", message_json)
+    send_message(reply_token, message)
+
 
 def send_text_and_image(reply_token, text, image_number, text1 = None, text2 = None):
     print("Send text and image")
