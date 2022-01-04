@@ -15,6 +15,7 @@ class Game():
 
     def start_game(self):
         print("Start game")
+        self.deck = list(range(len(data.img_urls)))
         shuffle(self.deck)
         self.hands = [[-1]*5 for _ in range(self.player_count)]
         self.display = [-1]*self.player_count
@@ -168,7 +169,7 @@ class Game():
     player_count = int()
     collected = False
     guesses_recorded = False
-    deck = list(range(len(data.img_urls)))
+    deck = list()
     hands = list() # Do I organize them in (x) user_id or just (v) player_number?
     guesses = list()
     display = list()
