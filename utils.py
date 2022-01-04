@@ -147,7 +147,8 @@ def show_game_ended(reply_token, text, user_id):
     try:
         profile = line_bot_api.get_profile('<user_id>')
     except LineBotApiError as e:
-        profile = "Beautiful person"
+        print(e)
+        profile = "beautiful person"
     text1 = "Hello, " + profile + "\nType \"Create\" to start a new room.\nType\"Join [Room Number]\" to join an existing room"
 
     send_message(reply_token, message, TextSendMessage(text=text1))
