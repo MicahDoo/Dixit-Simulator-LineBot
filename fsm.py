@@ -144,14 +144,14 @@ class UserMachine(GraphMachine):
     def plays_a_card(self, event):
         text = event.message.text
         if text.isnumeric() and 0 < int(text) <= 5:
-            send_text_and_image(event.reply_token, "You played card " + text + " to confuse the opponent: ", self.my_game.hands[self.my_player_id][int(text)-1], "Continue after everyone plays a card and the storyteller collects the cards.")
+            send_text_and_image(event.reply_token, "You played card " + text + " to confuse the opponents: ", self.my_game.hands[self.my_player_id][int(text)-1], "Wait as the storyteller collects all the cards.")
             self.my_game.log_distraction(self.my_player_id, int(text)-1)
         return text.isnumeric() and 0 < int(text) <= 5
 
     def guesses_a_card(self,event):
         text = event.message.text
         if text.isnumeric() and 0 < int(text) <= self.my_game.player_count:
-            send_text_and_image(event.reply_token, "Your guess:", self.my_game.display[int(text)-1], "Continue after the storyteller confirms everyone makes a guess.")
+            send_text_and_image(event.reply_token, "Your guess:", self.my_game.display[int(text)-1], "Wait till everyone has made a guess.")
             self.my_game.log_guess(self.my_player_id, int(text)-1)
         return text.isnumeric() and 0 < int(text) <= self.my_game.player_count
 
@@ -175,7 +175,7 @@ class UserMachine(GraphMachine):
     def on_enter_all_cards_played(self, event):
         self.my_game.collected = True
         self.my_game.replace_all_cards()
-        show_display(event.reply_token, self.my_game.display, "Can your audience see through your story?", self.my_game.player_count, "Continue when all players have placed their bets.")
+        show_display(event.reply_token, self.my_game.display, "Can your audience spot your story?", self.my_game.player_count, "Continue when all players have placed their bets.")
 
     def storyteller_collected_the_cards(self, event):
         return self.my_game.collected
