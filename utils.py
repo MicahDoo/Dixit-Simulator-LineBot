@@ -149,8 +149,8 @@ def show_game_ended(reply_token, text, user_id):
     except LineBotApiError as e:
         profile = "Beautiful person"
     text1 = "Hello, " + profile + "\nType \"Create\" to start a new room.\nType\"Join [Room Number]\" to join an existing room"
-    
-    send_message(reply_token, message, TextSendMessage(text=text))
+
+    send_message(reply_token, message, TextSendMessage(text=text1))
 
 
 def send_text_and_image(reply_token, text, image_number, text1 = None, text2 = None):
