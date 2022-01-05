@@ -202,6 +202,7 @@ class UserMachine(GraphMachine):
         print("tally_text = ", tally_text)
         print("leaderboard_text = ", leaderboard_text)
         send_text_and_image(event.reply_token, "Answer:", self.my_game.story, tally_text, leaderboard_text)
+        self.my_game.start_round()
 
     def on_enter_scores_tallied(self, event):
         tally_text = self.my_game.tally()
@@ -234,7 +235,6 @@ class UserMachine(GraphMachine):
         return self.my_player_id == (self.my_game.storyteller+1)%self.my_game.player_count
 
     def on_enter_storyteller_card_dealt(self, event):
-        self.my_game.start_round()
         hand = self.my_game.get_hand(self.my_player_id)
 
         reply_token = event.reply_token

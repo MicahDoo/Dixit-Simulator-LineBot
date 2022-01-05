@@ -74,15 +74,15 @@ class Game():
                     miss_count += 1
                     miss_text += "player" + str(i) + " "
         this_round_text = ""
-        if hit_count == 0 or miss_count == self.player_count-1:
+        if hit_count == 0 or miss_count == 0:
             for i in range(self.player_count):
                 if i != self.storyteller:
                     this_round_text += "player" + str(i) + ": +2"
                     self.scores[i] += 2
                 else:
-                    this_round_text += "player" + str(i) + ": +4" #####
+                    this_round_text += "player" + str(i) + ": +0" #####
                     print("score goes from", self.scores[i])
-                    self.scores[i] += 4
+                    self.scores[i] += 0
                     print("to", self.scores[i])
                 if i != self.player_count - 1:
                     this_round_text +="\n"
