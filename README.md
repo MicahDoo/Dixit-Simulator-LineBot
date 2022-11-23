@@ -1,7 +1,9 @@
 # 妙語說書人 模擬器 團康桌遊小幫手
 
-> 2021 LineBot 實作
-> 截止：2022/1/2
+## Demo
+<img width="375" alt="image" src="https://user-images.githubusercontent.com/57170797/203503515-e50b37dd-3f56-4ef9-93a8-8cedf36e94ac.jpeg">
+<img width="375" alt="image" src="https://user-images.githubusercontent.com/57170797/203503545-19dea3e5-b248-4b3b-8f86-afb1ff731738.jpeg">
+<img width="375" alt="image" src="https://user-images.githubusercontent.com/57170797/203503691-52999e5a-9505-4446-a643-ef76a6e21201.png">
 
 ## 引言
 
